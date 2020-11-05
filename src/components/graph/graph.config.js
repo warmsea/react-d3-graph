@@ -285,6 +285,7 @@ export default {
         viewGenerator: null,
     },
     link: {
+        linkFocusable: true,
         color: "#d3d3d3",
         fontColor: "black",
         fontSize: 8,

@@ -63,6 +63,9 @@ export default class Link extends React.Component {
     handleOnMouseOutLink = () =>
         this.props.onMouseOutLink && this.props.onMouseOutLink(this.props.source, this.props.target);
 
+    handleOnKeyDownLink = () =>
+        this.props.onKeyDownLink && this.props.onKeyDownLink(this.props.source, this.props.target);
+
     render() {
         const lineStyle = {
             strokeWidth: this.props.strokeWidth,
@@ -70,6 +73,7 @@ export default class Link extends React.Component {
             opacity: this.props.opacity,
             fill: "none",
             cursor: this.props.mouseCursor,
+            linkStrokeDashArray: this.props.linkStrokeDashArray,
         };
 
         const lineProps = {
@@ -79,6 +83,11 @@ export default class Link extends React.Component {
             onContextMenu: this.handleOnRightClickLink,
             onMouseOut: this.handleOnMouseOutLink,
             onMouseOver: this.handleOnMouseOverLink,
+            onKeyDown: this.handleOnKeyDownLink,
+            tabIndex: this.props.linkFocusable ? "0" : undefined,
+            "aria-label": this.props.getLinkAriaLabel
+                ? this.props.getLinkAriaLabel(this.props.source, this.props.target)
+                : undefined,
             style: lineStyle,
         };
 

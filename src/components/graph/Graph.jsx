@@ -245,17 +245,8 @@ export default class Graph extends React.Component {
             const top = adjustSize;
             const bottom = height - adjustSize;
 
-            if (draggedNode.x < left) {
-                draggedNode.x = left;
-            } else if (draggedNode.x > right) {
-                draggedNode.x = right;
-            }
-
-            if (draggedNode.y < top) {
-                draggedNode.y = top;
-            } else if (draggedNode.y > bottom) {
-                draggedNode.y = bottom;
-            }
+            draggedNode.x = this._clamp(draggedNode.x, left, right);
+            draggedNode.y = this._clamp(draggedNode.y, top, bottom);
 
             // set nodes fixing coords fx and fy
             draggedNode["fx"] = draggedNode.x;
@@ -263,6 +254,12 @@ export default class Graph extends React.Component {
 
             this._tick({ draggedNode });
         }
+    };
+
+    _clamp = (value, low, high) => {
+        if (value < low) return low;
+        if (value > high) return high;
+        return value;
     };
 
     /**

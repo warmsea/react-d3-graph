@@ -237,12 +237,29 @@ export default class Graph extends React.Component {
             draggedNode.x += d3Event.dx;
             draggedNode.y += d3Event.dy;
 
+            // limit the node inside canvas boundaries
+            let { width, height } = this.state.config;
+            const adjustSize = draggedNode.size ? draggedNode.size / 2 : 0;
+            const left = adjustSize;
+            const right = width - adjustSize;
+            const top = adjustSize;
+            const bottom = height - adjustSize;
+
+            draggedNode.x = this._clamp(draggedNode.x, left, right);
+            draggedNode.y = this._clamp(draggedNode.y, top, bottom);
+
             // set nodes fixing coords fx and fy
             draggedNode["fx"] = draggedNode.x;
             draggedNode["fy"] = draggedNode.y;
 
             this._tick({ draggedNode });
         }
+    };
+
+    _clamp = (value, low, high) => {
+        if (value < low) return low;
+        if (value > high) return high;
+        return value;
     };
 
     /**

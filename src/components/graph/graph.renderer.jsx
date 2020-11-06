@@ -17,63 +17,6 @@ import { isNodeVisible } from "./collapse.helper";
 import { getMarkerSize } from "../marker/marker.helper";
 
 /**
- * Function that builds Node components.
- * @param  {Object.<string, Object>} nodes - an object containing all nodes mapped by their id.
- * @param  {Array.<Object>} links - array of links {@link #Link|Link}.
- * @param  {Array.<Object>} linksMatrix - array of links {@link #Link|Link}.
- * @param  {Object} config - an object containing rd3g consumer defined configurations {@link #config config} for the graph.
- * @param  {Function[]} linkCallbacks - same as {@link #graphrenderer|linkCallbacks in renderGraph}.
- * @param  {string} highlightedNode - this value contains a string that represents the some currently highlighted node.
- * @param  {Object} highlightedLink - this object contains a source and target property for a link that is highlighted at some point in time.
- * @param  {number} transform - value that indicates the amount of zoom transformation.
- * @returns {Object} returns the generated link component.
- * @memberof Graph/renderer
- */
-function _renderLink(nodes, link, linksMatrix, config, linkCallbacks, highlightedNode, highlightedLink, transform) {
-    const { source, target } = link;
-    const sourceId = getId(source);
-    const targetId = getId(target);
-    const key = `${sourceId}${CONST.COORDS_SEPARATOR}${targetId}`;
-    const props = buildLinkProps(
-        { ...link, source: `${sourceId}`, target: `${targetId}` },
-        nodes,
-        linksMatrix,
-        config,
-        linkCallbacks,
-        `${highlightedNode}`,
-        highlightedLink,
-        transform
-    );
-
-    return <Link key={key} id={key} {...props} />;
-}
-
-/**
- * Function that builds Node components.
- * @param  {Object.<string, Object>} nodes - an object containing all nodes mapped by their id.
- * @param  {string} nodeId - id of a node.
- * @param  {Object} config - an object containing rd3g consumer defined configurations {@link #config config} for the graph.
- * @param  {Function[]} nodeCallbacks - array of callbacks for used defined event handler for node interactions.
- * @param  {string} highlightedNode - this value contains a string that represents the some currently highlighted node.
- * @param  {Object} highlightedLink - this object contains a source and target property for a link that is highlighted at some point in time.
- * @param  {number} transform - value that indicates the amount of zoom transformation.
- * @returns {Object} returns the generated node component.
- * @memberof Graph/renderer
- */
-function _renderNode(nodes, nodeId, config, nodeCallbacks, highlightedNode, highlightedLink, transform) {
-    const props = buildNodeProps(
-        { ...nodes[nodeId], id: `${nodeId}` },
-        config,
-        nodeCallbacks,
-        highlightedNode,
-        highlightedLink,
-        transform
-    );
-
-    return <Node key={nodeId} {...props} />;
-}
-
-/**
  * Function that builds Graph with Breadth First Search.
  * @param {Object.<string, Object>} nodes - an object containing all nodes mapped by their id.
  * @param {Function[]} nodeCallbacks - array of callbacks for used defined event handler for node interactions.
@@ -96,47 +39,52 @@ function renderWithBFS(
     links,
     linkCallbacks
 ) {
+    function _renderNode(nodeId) {
+        const props = buildNodeProps(
+            { ...nodes[nodeId], id: `${nodeId}` },
+            config,
+            nodeCallbacks,
+            highlightedNode,
+            highlightedLink,
+            transform
+        );
+
+        return <Node key={nodeId} {...props} />;
+    }
+
+    function _renderLink(link) {
+        const { source, target } = link;
+        const sourceId = getId(source);
+        const targetId = getId(target);
+        const key = `${sourceId}${CONST.COORDS_SEPARATOR}${targetId}`;
+        const props = buildLinkProps(
+            { ...link, source: `${sourceId}`, target: `${targetId}` },
+            nodes,
+            linksMatrix,
+            config,
+            linkCallbacks,
+            `${highlightedNode}`,
+            highlightedLink,
+            transform
+        );
+
+        return <Link key={key} id={key} {...props} />;
+    }
+
     const visitedNodeIds = [];
     const visitedLinks = [];
     const elements = [];
 
     const startNodeId = nodes[Object.keys(nodes)[0]].id;
-    elements.push(_renderNode(nodes, startNodeId, config, nodeCallbacks, highlightedNode, highlightedLink, transform));
+    elements.push(_renderNode(startNodeId));
     visitedNodeIds.push(startNodeId);
-    bfs(
-        startNodeId,
-        elements,
-        visitedNodeIds,
-        visitedLinks,
-        nodes,
-        nodeCallbacks,
-        config,
-        highlightedNode,
-        highlightedLink,
-        transform,
-        linksMatrix,
-        links,
-        linkCallbacks
-    );
+
+    bfs(elements, visitedNodeIds, visitedLinks, nodes, startNodeId, _renderNode, links, _renderLink);
 
     return elements;
 }
 
-function bfs(
-    nodeId,
-    elements,
-    visitedNodeIds,
-    visitedLinks,
-    nodes,
-    nodeCallbacks,
-    config,
-    highlightedNode,
-    highlightedLink,
-    transform,
-    linksMatrix,
-    links,
-    linkCallbacks
-) {
+function bfs(elements, visitedNodeIds, visitedLinks, nodes, nodeId, nodeRenderer, links, linkRenderer) {
     if (visitedLinks.length === links.length && visitedNodeIds.length === Object.keys(nodes).length) {
         return;
     }
@@ -152,14 +100,10 @@ function bfs(
         });
 
     linksToRender.forEach(link => {
-        elements.push(
-            _renderLink(nodes, link, linksMatrix, config, linkCallbacks, highlightedNode, highlightedLink, transform)
-        );
+        elements.push(linkRenderer(link));
         const connectedNodeId = getId(link.source) === nodeId ? getId(link.target) : getId(link.source);
         if (visitedNodeIds.filter(visitedNodeId => visitedNodeId === connectedNodeId).length === 0) {
-            elements.push(
-                _renderNode(nodes, connectedNodeId, config, nodeCallbacks, highlightedNode, highlightedLink, transform)
-            );
+            elements.push(nodeRenderer(connectedNodeId));
             visitedNodeIds.push(connectedNodeId);
         }
     });
@@ -170,21 +114,7 @@ function bfs(
     });
 
     nextLayerNodeIds.forEach(nodeId =>
-        bfs(
-            nodeId,
-            elements,
-            visitedNodeIds,
-            visitedLinks,
-            nodes,
-            nodeCallbacks,
-            config,
-            highlightedNode,
-            highlightedLink,
-            transform,
-            linksMatrix,
-            links,
-            linkCallbacks
-        )
+        bfs(elements, visitedNodeIds, visitedLinks, nodes, nodeId, nodeRenderer, links, linkRenderer)
     );
 }
 

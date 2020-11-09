@@ -655,7 +655,8 @@ export default class Graph extends React.Component {
                 onMouseOutLink: this.onMouseOutLink,
                 onKeyDownLink: this.onKeyDownLink,
                 getLinkAriaLabel: this.props.getLinkAriaLabel, // (source, target) => ariaLabel
-            },
+                linkStrokeDashArray: this.props.linkStrokeDashArray,
+            }
         );
 
         const svgStyle = {

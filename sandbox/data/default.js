@@ -21,76 +21,44 @@ module.exports = {
             target: "Umgah",
         },
         {
-            source: "Androsynth",
-            target: "VUX",
-        },
-        {
             source: "Chenjesu",
-            target: "Mycon",
-        },
-        {
-            source: "Chenjesu",
-            target: "Spathi",
-        },
-        {
-            source: "Chenjesu",
-            target: "Umgah",
-        },
-        {
-            source: "Chenjesu",
-            target: "VUX",
-        },
-        {
-            source: "Ilwrath",
-            target: "Spathi",
-        },
-        {
-            source: "Ilwrath",
-            target: "Umgah",
-        },
-        {
-            source: "Ilwrath",
-            target: "VUX",
-        },
-        {
-            source: "Mycon",
-            target: "Umgah",
-        },
-        {
-            source: "Mycon",
-            target: "VUX",
-        },
-        {
-            source: "Umgah",
-            target: "VUX",
-        },
-        {
-            source: "Androsynth",
             target: "Guardian",
+        },
+        {
+            source: "Chenjesu",
+            target: "VUX",
         },
         {
             source: "Chenjesu",
             target: "Broodhmome",
         },
         {
+            source: "Mycon",
+            target: "Drone",
+        },
+        {
+            source: "Mycon",
+            target: "Intruder",
+        },
+        {
             source: "Ilwrath",
             target: "Avenger",
         },
         {
-            source: "Mycon",
+            source: "Ilwrath",
             target: "Podship",
         },
         {
-            source: "Spathi",
+            source: "Ilwrath",
             target: "Eluder",
         },
         {
             source: "Umgah",
-            target: "Drone",
+            target: "Hello",
         },
         {
-            source: "VUX",
-            target: "Intruder",
+            source: "Umgah",
+            target: "World",
         },
     ],
     nodes: [
@@ -114,6 +82,7 @@ module.exports = {
         },
         {
             id: "VUX",
+            symbolType: "square",
         },
         {
             id: "Guardian",
@@ -141,6 +110,14 @@ module.exports = {
         },
         {
             id: "Intruder",
+            symbolType: "square",
+        },
+        {
+            id: "Hello",
+            symbolType: "square",
+        },
+        {
+            id: "World",
             symbolType: "square",
         },
     ],

@@ -73,7 +73,6 @@ export default class Link extends React.Component {
             opacity: this.props.opacity,
             fill: "none",
             cursor: this.props.mouseCursor,
-            linkStrokeDashArray: this.props.linkStrokeDashArray,
         };
 
         const lineProps = {
@@ -89,6 +88,9 @@ export default class Link extends React.Component {
                 ? this.props.getLinkAriaLabel(this.props.source, this.props.target)
                 : undefined,
             style: lineStyle,
+            strokeDasharray: this.props.linkStrokeDashArray
+                ? this.props.linkStrokeDashArray(this.props.source, this.props.target)
+                : undefined,
         };
 
         if (this.props.markerId) {

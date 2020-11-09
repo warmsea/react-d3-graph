@@ -149,7 +149,7 @@ function buildLinkProps(link, nodes, links, config, linkCallbacks, highlightedNo
         onMouseOverLink: linkCallbacks.onMouseOverLink,
         onRightClickLink: linkCallbacks.onRightClickLink,
         onKeyDownLink: linkCallbacks.onKeyDownLink,
-        linkStrokeDashArray: config.link.linkStrokeDashArray,
+        linkStrokeDashArray: linkCallbacks.linkStrokeDashArray,
         getLinkAriaLabel: linkCallbacks.getLinkAriaLabel,
         linkFocusable: config.link.linkFocusable,
     };

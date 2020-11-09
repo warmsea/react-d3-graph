@@ -389,6 +389,10 @@ export default class Sandbox extends React.Component {
         return "test aria-label";
     };
 
+    linkStrokeDashArray = (source, target) => {
+        return (source.length + target.length) % 2 === 0 ? "4" : undefined;
+    };
+
     componentDidMount() {
         toast.configure();
     }
@@ -420,6 +424,7 @@ export default class Sandbox extends React.Component {
             onNodePositionChange: this.onNodePositionChange,
             onZoomChange: this.onZoomChange,
             getLinkAriaLabel: this.getLinkAriaLabel,
+            linkStrokeDashArray: this.linkStrokeDashArray,
         };
 
         if (this.state.fullscreen) {

@@ -148,6 +148,10 @@ function buildLinkProps(link, nodes, links, config, linkCallbacks, highlightedNo
         onMouseOutLink: linkCallbacks.onMouseOutLink,
         onMouseOverLink: linkCallbacks.onMouseOverLink,
         onRightClickLink: linkCallbacks.onRightClickLink,
+        onKeyDownLink: linkCallbacks.onKeyDownLink,
+        linkStrokeDashArray: config.link.linkStrokeDashArray,
+        getLinkAriaLabel: linkCallbacks.getLinkAriaLabel,
+        linkFocusable: config.link.linkFocusable,
     };
 }
 

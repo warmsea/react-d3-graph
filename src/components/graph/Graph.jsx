@@ -465,6 +465,10 @@ export default class Graph extends React.Component {
         }
     };
 
+    onKeyDownLink = (source, target) => {
+        this.props.onKeyDownLink && this.props.onKeyDownLink(source, target);
+    };
+
     /**
      * Handles node position change.
      * @param {Object} node - an object holding information about the dragged node.
@@ -649,7 +653,9 @@ export default class Graph extends React.Component {
                 onRightClickLink: this.props.onRightClickLink,
                 onMouseOverLink: this.onMouseOverLink,
                 onMouseOutLink: this.onMouseOutLink,
-            }
+                onKeyDownLink: this.onKeyDownLink,
+                getLinkAriaLabel: this.props.getLinkAriaLabel, // (source, target) => ariaLabel
+            },
         );
 
         const svgStyle = {

@@ -104,6 +104,8 @@ export default class Sandbox extends React.Component {
     onNodePositionChange = (nodeId, x, y) =>
         console.info(`Node ${nodeId} is moved to new position. New position is (${x}, ${y}) (x,y)`);
 
+    onKeyDownLink = (source, target) => console.info(`On keydown link between ${source} and ${target}`);
+
     /**
      * Sets on/off fullscreen visualization mode.
      */
@@ -383,6 +385,10 @@ export default class Sandbox extends React.Component {
         }
     };
 
+    getLinkAriaLabel = (source, target) => {
+        return "test aria-label";
+    };
+
     componentDidMount() {
         toast.configure();
     }
@@ -410,8 +416,10 @@ export default class Sandbox extends React.Component {
             onMouseOutNode: this.onMouseOutNode,
             onMouseOverLink: this.onMouseOverLink,
             onMouseOutLink: this.onMouseOutLink,
+            onKeyDownLink: this.onKeyDownLink,
             onNodePositionChange: this.onNodePositionChange,
             onZoomChange: this.onZoomChange,
+            getLinkAriaLabel: this.getLinkAriaLabel,
         };
 
         if (this.state.fullscreen) {

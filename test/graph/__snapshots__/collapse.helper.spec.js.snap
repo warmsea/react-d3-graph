@@ -29,63 +29,13 @@ Array [
   },
   Object {
     "isHidden": false,
-    "source": "Androsynth",
-    "target": "VUX",
-  },
-  Object {
-    "isHidden": false,
     "source": "Chenjesu",
-    "target": "Mycon",
-  },
-  Object {
-    "isHidden": false,
-    "source": "Chenjesu",
-    "target": "Spathi",
-  },
-  Object {
-    "isHidden": false,
-    "source": "Chenjesu",
-    "target": "Umgah",
-  },
-  Object {
-    "isHidden": false,
-    "source": "Chenjesu",
-    "target": "VUX",
-  },
-  Object {
-    "isHidden": false,
-    "source": "Ilwrath",
-    "target": "Spathi",
-  },
-  Object {
-    "isHidden": false,
-    "source": "Ilwrath",
-    "target": "Umgah",
-  },
-  Object {
-    "isHidden": false,
-    "source": "Ilwrath",
-    "target": "VUX",
-  },
-  Object {
-    "isHidden": false,
-    "source": "Mycon",
-    "target": "Umgah",
-  },
-  Object {
-    "isHidden": false,
-    "source": "Mycon",
-    "target": "VUX",
-  },
-  Object {
-    "isHidden": false,
-    "source": "Umgah",
-    "target": "VUX",
-  },
-  Object {
-    "isHidden": false,
-    "source": "Androsynth",
     "target": "Guardian",
+  },
+  Object {
+    "isHidden": false,
+    "source": "Chenjesu",
+    "target": "VUX",
   },
   Object {
     "isHidden": false,
@@ -94,28 +44,38 @@ Array [
   },
   Object {
     "isHidden": false,
+    "source": "Mycon",
+    "target": "Drone",
+  },
+  Object {
+    "isHidden": false,
+    "source": "Mycon",
+    "target": "Intruder",
+  },
+  Object {
+    "isHidden": false,
     "source": "Ilwrath",
     "target": "Avenger",
   },
   Object {
     "isHidden": false,
-    "source": "Mycon",
+    "source": "Ilwrath",
     "target": "Podship",
   },
   Object {
     "isHidden": false,
-    "source": "Spathi",
+    "source": "Ilwrath",
     "target": "Eluder",
   },
   Object {
     "isHidden": false,
     "source": "Umgah",
-    "target": "Drone",
+    "target": "Hello",
   },
   Object {
     "isHidden": false,
-    "source": "VUX",
-    "target": "Intruder",
+    "source": "Umgah",
+    "target": "World",
   },
 ]
 `;
@@ -124,48 +84,40 @@ exports[`Collapse Helper #toggleLinksMatrixConnections when graph is directed sh
 Object {
   "Androsynth": Object {
     "Chenjesu": 0,
-    "Guardian": 1,
     "Ilwrath": 0,
     "Mycon": 1,
     "Spathi": 1,
     "Umgah": 1,
-    "VUX": 1,
   },
   "Avenger": Object {},
   "Broodhmome": Object {},
   "Chenjesu": Object {
     "Broodhmome": 1,
-    "Mycon": 1,
-    "Spathi": 1,
-    "Umgah": 1,
+    "Guardian": 1,
     "VUX": 1,
   },
   "Drone": Object {},
   "Eluder": Object {},
   "Guardian": Object {},
+  "Hello": Object {},
   "Ilwrath": Object {
     "Avenger": 1,
-    "Spathi": 1,
-    "Umgah": 1,
-    "VUX": 1,
+    "Eluder": 1,
+    "Podship": 1,
   },
   "Intruder": Object {},
   "Mycon": Object {
-    "Podship": 1,
-    "Umgah": 1,
-    "VUX": 1,
-  },
-  "Podship": Object {},
-  "Spathi": Object {
-    "Eluder": 1,
-  },
-  "Umgah": Object {
     "Drone": 1,
-    "VUX": 1,
-  },
-  "VUX": Object {
     "Intruder": 1,
   },
+  "Podship": Object {},
+  "Spathi": Object {},
+  "Umgah": Object {
+    "Hello": 1,
+    "World": 1,
+  },
+  "VUX": Object {},
+  "World": Object {},
 }
 `;
 
@@ -173,12 +125,10 @@ exports[`Collapse Helper #toggleLinksMatrixConnections when graph is not directe
 Object {
   "Androsynth": Object {
     "Chenjesu": 0,
-    "Guardian": 1,
     "Ilwrath": 0,
     "Mycon": 1,
     "Spathi": 1,
     "Umgah": 1,
-    "VUX": 1,
   },
   "Avenger": Object {
     "Ilwrath": 1,
@@ -189,60 +139,50 @@ Object {
   "Chenjesu": Object {
     "Androsynth": 0,
     "Broodhmome": 1,
-    "Mycon": 1,
-    "Spathi": 1,
-    "Umgah": 1,
+    "Guardian": 1,
     "VUX": 1,
   },
   "Drone": Object {
-    "Umgah": 1,
+    "Mycon": 1,
   },
   "Eluder": Object {
-    "Spathi": 1,
+    "Ilwrath": 1,
   },
   "Guardian": Object {
-    "Androsynth": 1,
+    "Chenjesu": 1,
+  },
+  "Hello": Object {
+    "Umgah": 1,
   },
   "Ilwrath": Object {
     "Androsynth": 0,
     "Avenger": 1,
-    "Spathi": 1,
-    "Umgah": 1,
-    "VUX": 1,
+    "Eluder": 1,
+    "Podship": 1,
   },
   "Intruder": Object {
-    "VUX": 1,
+    "Mycon": 1,
   },
   "Mycon": Object {
     "Androsynth": 1,
-    "Chenjesu": 1,
-    "Podship": 1,
-    "Umgah": 1,
-    "VUX": 1,
+    "Drone": 1,
+    "Intruder": 1,
   },
   "Podship": Object {
-    "Mycon": 1,
+    "Ilwrath": 1,
   },
   "Spathi": Object {
     "Androsynth": 1,
-    "Chenjesu": 1,
-    "Eluder": 1,
-    "Ilwrath": 1,
   },
   "Umgah": Object {
     "Androsynth": 1,
-    "Chenjesu": 1,
-    "Drone": 1,
-    "Ilwrath": 1,
-    "Mycon": 1,
-    "VUX": 1,
+    "Hello": 1,
+    "World": 1,
   },
   "VUX": Object {
-    "Androsynth": 1,
     "Chenjesu": 1,
-    "Ilwrath": 1,
-    "Intruder": 1,
-    "Mycon": 1,
+  },
+  "World": Object {
     "Umgah": 1,
   },
 }

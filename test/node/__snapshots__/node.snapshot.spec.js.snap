@@ -15,6 +15,7 @@ exports[`Snapshot - Node Component should match snapshot 1`] = `
     opacity="1"
     stroke="red"
     strokeWidth="2"
+    tabIndex="0"
   />
   <text
     dx=".90em"

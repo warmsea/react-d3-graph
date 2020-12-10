@@ -37,65 +37,61 @@ describe("Graph Component", () => {
     });
 
     describe("when onMouseOverNode is called", () => {
-        const nodeOffset = 1;
+        const nodeOffset = 0;
         const nodeAdjOffset = 2;
-        const nodeNotAdjOffset = 10;
+        const nodeNotAdjOffset = 18;
 
-        test("test", () => {
-            expect(true).toEqual(true);
+        test("should call mouseOverNode callback", () => {
+            const linksNodes = that.tree.children[0].children[1].children;
+            const node = linksNodes[0];
+
+            node.children[0].props.onMouseOver();
+
+            expect(that.mouseOverNodeCallback).toHaveBeenCalled();
         });
 
-        // test("should call mouseOverNode callback", () => {
-        //     const linksNodes = that.tree.children[0].children[1].children;
-        //     const node = linksNodes[linksNodes.length - 1];
+        test("node and their adjacent should have opacity equal to 1 and color (fill) equal to that.highlightColor", () => {
+            let linksNodes = that.tree.children[0].children[1].children,
+                node = linksNodes[nodeOffset];
 
-        //     node.children[0].props.onMouseOver();
+            node.children[0].props.onMouseOver();
 
-        //     expect(that.mouseOverNodeCallback).toHaveBeenCalled();
-        // });
+            let tree = that.graph.toJSON(); // re-render
 
-        // test("node and their adjacent should have opacity equal to 1 and color (fill) equal to that.highlightColor", () => {
-        //     let linksNodes = that.tree.children[0].children[1].children,
-        //         node = linksNodes[linksNodes.length - nodeOffset];
+            linksNodes = tree.children[0].children[1].children;
 
-        //     node.children[0].props.onMouseOver();
+            // Mouse overed node
+            node = linksNodes[nodeOffset];
 
-        //     let tree = that.graph.toJSON(); // re-render
+            let props = node.children[0].props;
 
-        //     linksNodes = tree.children[0].children[1].children;
+            expect(props.fill).toEqual(that.highlightColor);
+            expect(props.opacity).toEqual(1);
 
-        //     // Mouse overed node
-        //     node = linksNodes[linksNodes.length - nodeOffset];
+            // Some adjacent node
+            node = linksNodes[nodeAdjOffset];
 
-        //     let props = node.children[0].props;
+            props = node.children[0].props;
 
-        //     expect(props.fill).toEqual(that.highlightColor);
-        //     expect(props.opacity).toEqual(1);
+            expect(props.fill).toEqual(that.highlightColor);
+            expect(props.opacity).toEqual(1);
+        });
 
-        //     // Some adjacent node
-        //     node = linksNodes[linksNodes.length - nodeAdjOffset];
+        test("non selected node and non adjacent should have opacity equal to that.highlightOpacity and color equal to that.nodeColor", () => {
+            let linksNodes = that.tree.children[0].children[1].children,
+                node = linksNodes[nodeOffset];
 
-        //     props = node.children[0].props;
+            node.children[0].props.onMouseOver();
 
-        //     expect(props.fill).toEqual(that.highlightColor);
-        //     expect(props.opacity).toEqual(1);
-        // });
+            let tree = that.graph.toJSON(); // re-render
 
-        // test("non selected node and non adjacent should have opacity equal to that.highlightOpacity and color equal to that.nodeColor", () => {
-        //     let linksNodes = that.tree.children[0].children[1].children,
-        //         node = linksNodes[linksNodes.length - nodeOffset];
+            linksNodes = tree.children[0].children[1].children;
+            node = linksNodes[nodeNotAdjOffset];
 
-        //     node.children[0].props.onMouseOver();
+            const props = node.children[0].props;
 
-        //     let tree = that.graph.toJSON(); // re-render
-
-        //     linksNodes = tree.children[0].children[1].children;
-        //     node = linksNodes[linksNodes.length - nodeNotAdjOffset];
-
-        //     const props = node.children[0].props;
-
-        //     expect(props.fill).toEqual(that.nodeColor);
-        //     expect(props.opacity).toEqual(that.highlightOpacity);
-        // });
+            expect(props.fill).toEqual(that.nodeColor);
+            expect(props.opacity).toEqual(that.highlightOpacity);
+        });
     });
 });

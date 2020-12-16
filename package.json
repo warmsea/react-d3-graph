@@ -1,6 +1,6 @@
 {
   "name": "fluent-graph",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "React component to build interactive and configurable graphs with d3 effortlessly",
   "author": "Daniel Caldas",
   "license": "MIT",

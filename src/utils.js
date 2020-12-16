@@ -200,7 +200,7 @@ function debounce(fn, time) {
  * @memberof utils
  */
 function buildFormattedErrorMessage(component = "N/A", msg = "N/A") {
-    return `react-d3-graph :: ${component} :: ${msg}`;
+    return `fluent-graph :: ${component} :: ${msg}`;
 }
 
 /**
@@ -215,7 +215,7 @@ function throwErr(component, msg) {
 }
 
 /**
- * Logs formatted `react-d3-graph` error with `console.error`.
+ * Logs formatted `fluent-graph` error with `console.error`.
  * @param {string} component component name.
  * @param {string} msg message to log.
  * @returns {undefined}
@@ -233,7 +233,7 @@ function logError(component, msg) {
  * @memberof utils
  */
 function logWarning(component, msg) {
-    const warning = `react-d3-graph :: ${component} :: ${msg}`;
+    const warning = `fluent-graph :: ${component} :: ${msg}`;
 
     console.warn(warning);
 }

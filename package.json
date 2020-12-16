@@ -1,5 +1,5 @@
 {
-  "name": "react-d3-graph",
+  "name": "fluent-graph",
   "version": "3.0.0",
   "description": "React component to build interactive and configurable graphs with d3 effortlessly",
   "author": "Daniel Caldas",
@@ -93,7 +93,7 @@
   "main": "lib/index.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/danielcaldas/react-d3-graph.git"
+    "url": "git+https://github.com/warmsea/fluent-graph.git"
   },
   "keywords": [
     "d3-visualization",

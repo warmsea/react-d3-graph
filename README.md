@@ -2,6 +2,8 @@
 
 This lib is a fork of [react-d3-graph](https://github.com/danielcaldas/react-d3-graph) with improvements in terms of accessibility and more.
 
+Below is the README from the original project.
+
 # react-d3-graph &middot; [![Build Status](https://github.com/danielcaldas/react-d3-graph/workflows/react-d3-graph/badge.svg)](https://github.com/danielcaldas/react-d3-graph/workflows/react-d3-graph/badge.svg)
 
 ⚠️ **There has been some changes in the domain where I host the documentation and live examples, please use https://danielcaldas.github.io/react-d3-graph/docs instead of the old domain https://goodguydaniel.com/react-d3-graph. Sorry for any inconvenient** ⚠️

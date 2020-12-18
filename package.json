@@ -2,7 +2,11 @@
   "name": "fluent-graph",
   "version": "0.1.0",
   "description": "React component to build interactive and configurable graphs with d3 effortlessly",
-  "contributors": ["Su Su", "Chuang Yu", "Yixuan Dong"],
+  "contributors": [
+    "Su Su",
+    "Chuang Yu",
+    "Yixuan Dong"
+  ],
   "license": "MIT",
   "scripts": {
     "check": "npm run docs:lint && npm run lint && npm run test && npm run functional",

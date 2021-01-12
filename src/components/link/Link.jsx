@@ -63,8 +63,8 @@ export default class Link extends React.Component {
     handleOnMouseOutLink = () =>
         this.props.onMouseOutLink && this.props.onMouseOutLink(this.props.source, this.props.target);
 
-    handleOnKeyDownLink = () =>
-        this.props.onKeyDownLink && this.props.onKeyDownLink(this.props.source, this.props.target);
+    handleOnKeyDownLink = event =>
+        this.props.onKeyDownLink && this.props.onKeyDownLink(event, this.props.source, this.props.target);
 
     render() {
         const lineStyle = {
@@ -107,9 +107,26 @@ export default class Link extends React.Component {
             },
         };
 
+        const STROKE_WIDTH_LIMIT = 12;
+
+        const needClickHelperPath = this.props.onClickLink && this.props.strokeWidth < STROKE_WIDTH_LIMIT;
+
+        const clickHelperLineStyle = {
+            strokeWidth: STROKE_WIDTH_LIMIT,
+            stroke: this.props.stroke,
+            opacity: 0,
+            cursor: this.props.mouseCursor,
+        };
+        const clickHelperLineProps = {
+            className: this.props.className,
+            d: this.props.d,
+            onClick: this.handleOnClickLink,
+            style: clickHelperLineStyle,
+        };
         return (
             <g>
                 <path {...lineProps} id={id} />
+                {needClickHelperPath && <path {...clickHelperLineProps} id={`clickHelper-${id}`} />}
                 {label && (
                     <text style={{ textAnchor: "middle" }} {...textProps}>
                         <textPath href={`#${id}`} startOffset="50%">

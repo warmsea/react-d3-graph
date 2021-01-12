@@ -104,7 +104,11 @@ export default class Sandbox extends React.Component {
     onNodePositionChange = (nodeId, x, y) =>
         console.info(`Node ${nodeId} is moved to new position. New position is (${x}, ${y}) (x,y)`);
 
-    onKeyDownLink = (source, target) => console.info(`On keydown link between ${source} and ${target}`);
+    onKeyDownLink = (event, source, target) => {
+        if (event.keyCode === KeyCodes.enter) {
+            console.info(`On keydown link between ${source} and ${target}`);
+        }
+    };
 
     /**
      * Sets on/off fullscreen visualization mode.

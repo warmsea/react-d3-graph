@@ -465,8 +465,8 @@ export default class Graph extends React.Component {
         }
     };
 
-    onKeyDownLink = (source, target) => {
-        this.props.onKeyDownLink && this.props.onKeyDownLink(source, target);
+    onKeyDownLink = (event, source, target) => {
+        this.props.onKeyDownLink && this.props.onKeyDownLink(event, source, target);
     };
 
     /**

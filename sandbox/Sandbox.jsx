@@ -105,7 +105,7 @@ export default class Sandbox extends React.Component {
         console.info(`Node ${nodeId} is moved to new position. New position is (${x}, ${y}) (x,y)`);
 
     onKeyDownLink = (event, source, target) => {
-        if (event.keyCode === KeyCodes.enter) {
+        if (event.key === "Enter") {
             console.info(`On keydown link between ${source} and ${target}`);
         }
     };

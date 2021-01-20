@@ -18,5 +18,17 @@ exports[`Snapshot - Link Component should match snapshot 1`] = `
       }
     }
   />
+  <path
+    id="clickHelper-undefined"
+    onClick={[Function]}
+    style={
+      Object {
+        "cursor": undefined,
+        "opacity": 0,
+        "stroke": "red",
+        "strokeWidth": 12,
+      }
+    }
+  />
 </g>
 `;

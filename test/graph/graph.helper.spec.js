@@ -299,7 +299,7 @@ describe("Graph Helper", () => {
                     expect(utils.throwErr).toHaveBeenCalledWith(
                         "Graph",
                         "you have not provided enough data" +
-                            " for react-d3-graph to render something. You need to provide at least one node"
+                            " for fluent-graph to render something. You need to provide at least one node"
                     );
                 });
             });

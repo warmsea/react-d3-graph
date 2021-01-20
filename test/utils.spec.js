@@ -283,7 +283,7 @@ describe("Utils", () => {
             try {
                 utils.throwErr(c, msg);
             } catch (err) {
-                expect(err.message).toEqual("react-d3-graph :: some component :: err message");
+                expect(err.message).toEqual("fluent-graph :: some component :: err message");
             }
         });
     });

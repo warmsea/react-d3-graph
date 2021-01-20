@@ -1,19 +1,19 @@
 [
     {
-        "comment": "/**\r\n * <div style=\"text-align: right;\"><i>This is certainly the only extra piece of documentation that you will ever need</i></div>\r\n * </br></br>\r\n * Here you can consult a detailed description of each graph configurable property as well as the default values\r\n * of those properties.\r\n *\r\n * <b>Note about performance</b></br>\r\n * Some of the properties have a major performance impact when toggled while rendering graphs of medium or large dimensions (hundreds or thousand of elements).\r\n * These properties are marked with 🚅🚅🚅.</br>\r\n * ⭐ <b>tip</b> <i>to achieve smoother interactions you may want to provide a toggle to set <b>staticGraph</b> or (better) <b>staticGraphWithDragAndDrop</b> to <b>true</b></i></br>\r\n * </br>\r\n * <b>Note about granularity</b></br>\r\n * Some of the properties listed in the <a href=\"#config-node\">Node section</a> are marked with 🔍🔍🔍. This means that this properties\r\n * have a higher level of granularity. These properties can be defined in the graph payload at a node level. (sample payload below)\r\n * ```javascript\r\n * const graph = {\r\n *     nodes: [\r\n *         {\r\n *             id: \"id\",\r\n *             color: \"red\",         // only this node will be red\r\n *             size: 300,            // only this node will have size 300\r\n *             symbolType: \"diamond\" // only this node will have \"diamond\" shape\r\n *         }\r\n *     ],\r\n *     links: [...]\r\n * };\r\n * ```\r\n *\r\n * </br>\r\n *\r\n * - <a href=\"#config-global\">Graph global configurations</a>\r\n * - <a href=\"#config-d3\">d3 level configurations</a>\r\n * - <a href=\"#config-node\">Node level configurations</a>\r\n * - <a href=\"#config-link\">Link level configurations</a>\r\n *\r\n * </br>\r\n *\r\n * <h2 id=\"config-global\"><a href=\"#config-global\">#</a>  Graph global configurations</h2>\r\n * @param {boolean} [automaticRearrangeAfterDropNode=false] - <a id=\"automatic-rearrange-after-drop-node\" href=\"#automatic-rearrange-after-drop-node\">🔗</a> 🚅🚅🚅 when true performing a node drag and drop should automatically\r\n * rearrange all nodes positions based on new position of dragged node (note: <b>staticGraph</b> should be false). A few notes on this property:\r\n * <ul>\r\n * <li><b>automaticRearrangeAfterDropNode</b> needs to be set before the first graph render. Only the first set value will take effect.</li>\r\n * <li><b>automaticRearrangeAfterDropNode</b> won't work together with <b>nodeHighlightBehavior</b> (currently a known limitation, to be address in the future <a href=\"https://github.com/danielcaldas/react-d3-graph/issues/261\" target=\"_blank\">GitHub issue #261</a>).</li>\r\n * </ul>\r\n * @param {boolean} [collapsible=false] - <a id=\"collapsible\" href=\"#collapsible\">🔗</a> 🚅🚅🚅 Allow leaf neighbors nodes to be collapsed (folded), this will allow users to clear the way out and focus on the parts of the graph that really matter.\r\n * To see an example of this behavior you can access <a href=\"https://danielcaldas.github.io/react-d3-graph/sandbox/index.html?data=marvel\" target=\"_blank\" title=\"sandbox collapsible example\">this sandbox link</a> that has a specific set up to experiment this feature. <b>NOTE</b>: At this moment\r\n * nodes without connections (orphan nodes) are not rendered when this property is activated (see <a target=\"_blank\" href=\"https://github.com/danielcaldas/react-d3-graph/issues/129\">GitHub issue #129</a>).\r\n * </br>\r\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-collapsible.gif?raw=true\" width=\"820\" height=\"480\"/>\r\n * @param {boolean} [directed=false] - <a id=\"directed\" href=\"#directed\">🔗</a> This property makes react-d3-graph handle your graph as a directed graph. It will\r\n * out of the box provide the look and feel of a directed graph and add directional semantic to links. You can see a sample in the image below.\r\n * </br>\r\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-directed.gif?raw=true\" width=\"820\" height=\"480\"/>\r\n * @param {number} [focusZoom=1] - <a id=\"focus-zoom\" href=\"#focus-zoom\">🔗</a> zoom that will be applied when the graph view is focused in a node. Its value must be between\r\n * <i>minZoom</i> and <i>maxZoom</i>. If the specified <i>focusZoom</i> is out of this range, <i>minZoom</i> or <i>maxZoom</i> will be applied instead.</br>\r\n * <b>NOTE</b>: This animation is not trigger by default. In order to trigger it you need to pass down to <code>react-d3-graph</code> the\r\n * node that you want to focus via prop <code>focusedNodeId</code> along side with nodes and links:\r\n *\r\n * ```javascript\r\n * const data = {\r\n *    nodes: this.state.data.nodes,\r\n *    links: this.state.data.links,\r\n *    focusedNodeId: \"nodeIdToTriggerZoomAnimation\"\r\n * };\r\n * ```\r\n *\r\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-zoom-animation.gif?raw=true\" width=\"820\" height=\"480\"/>\r\n *\r\n * @param {number} [focusAnimationDuration=0.75] - <a id=\"focus-animation-duration\" href=\"#focus-animation-duration\">🔗</a> duration (in seconds) for the animation that takes place when focusing the graph on a node.\r\n * @param {number} [height=400] - <a id=\"height\" href=\"#height\">🔗</a> the height of the (svg) area where the graph will be rendered.\r\n * @param {boolean} [nodeHighlightBehavior=false] - <a id=\"node-highlight-behavior\" href=\"#node-highlight-behavior\">🔗</a> 🚅🚅🚅 when user mouse hovers a node that node and adjacent common\r\n * connections will be highlighted (depending on the <i>highlightDegree</i> value). All the remaining nodes and links assume opacity value equal to <b>highlightOpacity</b>.\r\n * @param {boolean} [linkHighlightBehavior=false] - <a id=\"link-highlight-behavior\" href=\"#link-highlight-behavior\">🔗</a> 🚅🚅🚅 when the user mouse hovers some link that link and the correspondent nodes will be highlighted, this is a similar behavior\r\n * to <i>nodeHighlightBehavior</i> but for links <small>(just for historical reference this property was introduced in <a target=\"_blank\" href=\"https://github.com/danielcaldas/react-d3-graph/releases/tag/1.0.0\">v1.0.0</a>)</small>.\r\n * @param {number} [highlightDegree=1] - <a id=\"highlight-degree\" href=\"#highlight-degree\">🔗</a> <b>Possible values: 0, 1 or 2</b>. This value represents the range of the\r\n * highlight behavior when some node is highlighted. If the value is set to <b>0</b> only the selected node will be\r\n * highlighted. If the value is set to <b>1</b> the selected node and his 1st degree connections will be highlighted. If\r\n * the value is set to <b>2</b> the selected node will be highlighted as well as the 1st and 2nd common degree connections.\r\n * @param {number} [highlightOpacity=1] - <a id=\"highlight-opacity\" href=\"#highlight-opacity\">🔗</a> this value is used to highlight nodes in the network. The lower\r\n * the value the more the less highlighted nodes will be visible (related to <i>nodeHighlightBehavior</i>).\r\n * @param {number} [initialZoom=null] - <a id=\"max-zoom\" href=\"#initial-zoom\">🔗</a> initial zoom that can be set on the graph.\r\n * @param {number} [maxZoom=8] - <a id=\"max-zoom\" href=\"#max-zoom\">🔗</a> max zoom that can be performed against the graph.\r\n * @param {number} [minZoom=0.1] - <a id=\"min-zoom\" href=\"#min-zoom\">🔗</a> min zoom that can be performed against the graph.\r\n * @param {boolean} [panAndZoom=false] - <a id=\"pan-and-zoom\" href=\"#pan-and-zoom\">🔗</a> 🚅🚅🚅 pan and zoom effect when performing zoom in the graph,\r\n * a similar functionality may be consulted <a target=\"_blank\" href=\"https://bl.ocks.org/mbostock/2a39a768b1d4bc00a09650edef75ad39\">here</a>.\r\n * @param {boolean} [staticGraph=false] - <a id=\"static-graph\" href=\"#static-graph\">🔗</a> when setting this value to true the graph will be completely static, thus\r\n * all forces and drag events upon nodes will produce not effect. Note that, if this value is true the nodes will be\r\n * rendered with the initial provided <b>x and y coordinates</b> (links positions will be automatically set\r\n * from the given nodes positions by rd3g), no coordinates will be calculated by rd3g or subjacent d3 modules.\r\n * @param {boolean} [staticGraphWithDragAndDrop] - <a id=\"static-graph-with-drag-and-drop\" href=\"#static-graph-with-drag-and-drop\">🔗</a> exactly the same as above <code>staticGraph</code>, but it will allow users to drag&drop nodes.\r\n * <b>Note</b>: If <code>staticGraph</code> is set to <code>true</code>, then <code>staticGraphWithDragAndDrop</code> will not produce the desired behaviour, make sure\r\n * to set only one of them to <code>true</code>.\r\n * @param {number} [width=800] - <a id=\"width\" href=\"#width\">🔗</a> the width of the (svg) area where the graph will be rendered.\r\n * </br>\r\n * @param {Object} d3 d3 object is explained in next section. ⬇️\r\n * <h2 id=\"config-d3\"><a href=\"#config-d3\">#</a> d3 level configurations</h2>\r\n * @param {number} [d3.alphaTarget=0.05] - <a id=\"d3-alpha-target\" href=\"#d3-alpha-target\">🔗</a> <a target=\"_blank\" href=\"https://github.com/d3/d3-force#simulation_alphaTarget\">see d3-force simulation.alphaTarget</a>\r\n * @param {number} [d3.gravity=-100] - <a id=\"d3-gravity\" href=\"#d3-gravity\">🔗</a> this will define how close nodes are to each other <a target=\"_blank\" href=\"https://github.com/d3/d3-force#forces\">see d3 reference for forces</a>.\r\n *  - If value is positive, nodes will attract each other.\r\n *  - If value is negative, nodes will repel each other. Most of the times this is what we want, so nodes don\"t overlap.\r\n * @param {number} [d3.linkLength=100] - <a id=\"d3-link-length\" href=\"#d3-link-length\">🔗</a> the length of each link from the center of the nodes it joins.\r\n * @param {number} [d3.linkStrength=1] - <a id=\"d3-link-strength\" href=\"#d3-link-strength\">🔗</a> <a target=\"_blank\" href=\"https://github.com/d3/d3-force#link_strength\">see d3-force link.strength</a>\r\n * @param {boolean} [d3.disableLinkForce=false] - <a id=\"d3-disable-link-force\" href=\"#d3-disable-link-force\">🔗</a> ⚠️🧪EXPERIMENTAL🧪⚠️ it completely disables d3 force link and simulation to re-trigger so that one can obtain\r\n * precise render of node positions as described by the author <a target=\"_blank\" href=\"https://github.com/antoninklopp\">@antoninklopp</a> in <a target=\"_blank\" href=\"https://github.com/danielcaldas/react-d3-graph/pull/278\">the Pull Request description</a>.\r\n * </br>\r\n * @param {Object} node node object is explained in next section. ⬇️\r\n * <h2 id=\"config-node\"><a href=\"#config-node\">#</a> Node level configurations</h2>\r\n * @param {string} [node.color=\"#d3d3d3\"] - <a id=\"node-color\" href=\"#node-color\">🔗</a> 🔍🔍🔍 this is the color that will be applied to the node if no <b>color property</b></br>\r\n * is found inside the node itself (yes <b>you can pass a property \"color\" inside</b></br>\r\n * <b>the node and that color will override the this default one</b>).\r\n * @param {string} [node.fontColor=\"black\"] - <a id=\"node-font-color\" href=\"#node-font-color\">🔗</a> 🔍🔍🔍 fill color for node\"s <text> svg label.\r\n * @param {number} [node.fontSize=8] - <a id=\"node-font-size\" href=\"#node-font-size\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/font-size?v=control\">font-size</a>\r\n * property for all nodes\" labels.\r\n * @param {string} [node.fontWeight=\"normal\"] - <a id=\"node-font-weight\" href=\"#node-font-weight\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/font-weight?v=control\">font-weight</a>\r\n * property for all nodes\" labels.\r\n * @param {string} [node.highlightColor=\"SAME\"] - <a id=\"node-highlight-color\" href=\"#node-highlight-color\">🔗</a> color for all highlighted nodes (use string \"SAME\" if you\r\n * want the node to keep its color in highlighted state).\r\n * @param {number} [node.highlightFontSize=8] - <a id=\"node-highlight-font-size\" href=\"#node-highlight-font-size\">🔗</a> fontSize in highlighted state.\r\n * @param {string} [node.highlightFontWeight=\"normal\"] - <a id=\"node-highlight-font-weight\" href=\"#node-highlight-font-weight\">🔗</a> fontWeight in highlighted state.\r\n * @param {string} [node.highlightStrokeColor=\"SAME\"] - <a id=\"node-stroke-color\" href=\"#node-stroke-color\">🔗</a> strokeColor in highlighted state.\r\n * @param {number} [node.highlightStrokeWidth=\"SAME\"] - <a id=\"node-stroke-width\" href=\"#node-stroke-width\">🔗</a> strokeWidth in highlighted state.\r\n * @param {string} [node.labelPosition=null] - <a id=\"node-label-position\" href=\"#node-label-position\">🔗</a> 🔍🔍🔍 location to place node label relative to node.\r\n * The placement options are:\r\n *   - \"left\"\r\n *   - \"right\"\r\n *   - \"top\"\r\n *   - \"bottom\"\r\n *   - \"center\"\r\n *\r\n * <b>[note]</b> not specifying a label position will fallback to the original placement scheme of to the right of the node. This is different than the implementation for \"right\", which has the label shifted very slightly upward compared to the original.\r\n * @param {string|Function} [node.labelProperty=\"id\"] - <a id=\"node-label-property\" href=\"#node-label-property\">🔗</a> this is the node property that will be used in runtime to</br>\r\n * fetch the label content. You just need to add some property (e.g. firstName) to the node payload and then set</br>\r\n * node.labelProperty to be <b>\"firstName\"</b>. <b>This can also be a function!</b>, if you pass a function here it will be called</br>\r\n * to obtain the <code>label</code> value on the fly, as a client you will receive all the node information that you passed down into react-d3-graph,</br>\r\n * so the signature of the function would be:\r\n * ```javascript\r\n * function myCustomLabelBuilder(node) {\r\n *     // do stuff to get the final result...\r\n *     return \"label string\";\r\n * }\r\n * ```\r\n * Then you just need to make sure that you pass this function in the config in <code>config.node.labelProperty</code>.\r\n * </br>\r\n * @param {string} [node.mouseCursor=\"pointer\"] - <a id=\"node-pointer\" href=\"#node-pointer\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/cursor?v=control\">cursor</a>\r\n * property for when some node is mouse hovered.\r\n * @param {number} [node.opacity=1] - <a id=\"node-opacity\" href=\"#node-opacity\">🔗</a> 🔍🔍🔍 by default all nodes will have this opacity value.\r\n * @param {boolean} [node.renderLabel=true] - <a id=\"node-render-label\" href=\"#node-render-label\">🔗</a> 🔍🔍🔍 when set to false no labels will appear along side nodes in the\r\n * graph.\r\n * @param {number|Object} [node.size=200] - <a id=\"node-size\" href=\"#node-size\">🔗</a> 🔍🔍🔍 defines the size of all nodes. When set to a number, the node will have equal height and width.</br>\r\n * This can also be an object with a height and width property <b>when using custom nodes</b>.\r\n * ```javascript\r\n * size: 200\r\n * // or\r\n * size: {\r\n *    height: 200,\r\n *    width: 300,\r\n * }\r\n * ```\r\n * The actual node dimensions (in px) rendered on screen will be the size value divided by 10. For example, a node size of 200 will result in a node with a height and width of 20px.\r\n * @param {string} [node.strokeColor=\"none\"] - <a id=\"node-stroke-color\" href=\"#node-stroke-color\">🔗</a> 🔍🔍🔍  this is the stroke color that will be applied to the node if no <b>strokeColor property</b> is found inside the node itself (yes <b>you can pass a property \"strokeColor\" inside the node and that stroke color will override this default one</b>).\r\n * @param {number} [node.strokeWidth=1.5] - <a id=\"node-stroke-width\" href=\"#node-stroke-width\">🔗</a> 🔍🔍🔍 the width of the all node strokes.\r\n * @param {string} [node.svg=\"\"] - <a id=\"node-svg\" href=\"#node-svg\">🔗</a> 🔍🔍🔍 render custom svg for nodes in alternative to <b>node.symbolType</b>. This svg can\r\n * be provided as a string to either a remote svg resource or for a local one.\r\n * </br>\r\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-custom-svg.gif?raw=true\" width=\"820\" height=\"480\"/>\r\n * @param {string} [node.symbolType=\"circle\"] - <a id=\"node-symbol-type\" href=\"#node-symbol-type\">🔗</a> 🔍🔍🔍 the <a id=\"node-symbol-type\">shape</span> of the node.\r\n * Use the following values under a property <b>type</b> inside each node (nodes may have different types, same as colors):\r\n *   - \"circle\"\r\n *   - \"cross\"\r\n *   - \"diamond\"\r\n *   - \"square\"\r\n *   - \"star\"\r\n *   - \"triangle\"\r\n *   - \"wye\"\r\n *\r\n * <b>[note]</b> react-d3-graph will map this values to <a target=\"_blank\" href=\"https://github.com/d3/d3-shape#symbols\">d3 symbols</a>\r\n * @param {Function} [node.viewGenerator=null] - <a id=\"node-view-generator\" href=\"#node-view-generator\">🔗</a> 🔍🔍🔍 function that receives a node and returns a JSX view.\r\n * </br>\r\n * @param {Object} link link object is explained in the next section. ⬇️\r\n * <h2 id=\"config-link\"><a href=\"#config-link\">#</a> Link level configurations</h2>\r\n * @param {string} [link.color=\"#d3d3d3\"] - <a id=\"link-color\" href=\"#link-color\">🔗</a> 🔍🔍🔍 the color for links\r\n * (from version 1.3.0 this property can be configured at link level).\r\n * @param {string} [link.fontColor=\"black\"] - <a id=\"link-font-color\" href=\"#link-font-color\">🔗</a> 🔍🔍🔍 fill color for link's <text> svg label.\r\n * @param {number} [link.fontSize=8] - <a id=\"link-font-size\" href=\"#link-font-size\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/font-size?v=control\">font-size</a>\r\n * property for all links' labels.\r\n * @param {string} [link.fontWeight=\"normal\"] - <a id=\"link-font-weight\" href=\"#link-font-weight\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/font-weight?v=control\">font-weight</a>\r\n * property for all links' labels.\r\n * @param {string} [link.highlightColor=\"SAME\"] - <a id=\"link-highlight-color\" href=\"#link-highlight-color\">🔗</a> links' color in highlight state, default being the same color as `link.color`.\r\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-bend.gif?raw=true\" width=\"820\" height=\"480\"/>\r\n * @param {number} [link.highlightFontSize=8] - <a id=\"link-highlight-font-size\" href=\"#link-highlight-font-size\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/font-size?v=control\">font-size</a> in highlighted state.\r\n * @param {string} [link.highlightFontWeight=\"normal\"] - <a id=\"link-highlight-font-weight\" href=\"#link-highlight-font-weight\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/font-weight?v=control\">font-weight</a> in highlighted state.\r\n * @param {string|Function} [link.labelProperty=\"label\"] - <a id=\"link-label-property\" href=\"#link-label-property\">🔗</a> the property that will be rendered as label within some link. Note that</br>\r\n * this property needs to be passed along the link payload (along side with source and target). This property can also be a function</br>\r\n * that receives the link itself as argument and returns a custom string, similarly to what happens with <code>node.labelProperty</code>.</br>\r\n * @param {string} [link.mouseCursor=\"pointer\"] - <a id=\"link-mouse-cursor\" href=\"#link-mouse-cursor\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/cursor?v=control\">cursor</a>\r\n * property for when link is mouse hovered.\r\n * @param {number} [link.opacity=1] 🔍🔍🔍 - <a href=\"#link-opacity\" href=\"\">🔗</a> the default opacity value for links.\r\n * @param {boolean} [link.renderLabel=false] - <a id=\"link-render-label\" href=\"#link-render-label\">🔗</a> when set to true labels will appear along side links in the\r\n * graph. <b>Note</b>: this will only happen of course if proper label is passed within the link, check also <code>link.labelProperty</code>.\r\n * </br>\r\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-link-render-label.png?raw=true\" width=\"820\" height=\"480\"/>\r\n * @param {boolean} [link.semanticStrokeWidth=false] - <a id=\"link-semantic-stroke-width\" href=\"#link-semantic-stroke-width\">🔗</a> when set to true all links will have\r\n * <i>\"semantic width\"</i>, this means that the width of the connections will be proportional to the value of each link.\r\n * This is how link strokeWidth will be calculated:\r\n * ```javascript\r\n * strokeWidth += (linkValue * strokeWidth) / 10;\r\n * ```\r\n * @param {number} [link.strokeWidth=1.5] - <a id=\"link-stroke-width\" href=\"#link-stroke-width\">🔗</a> 🔍🔍🔍 strokeWidth for all links. By default the actual value is obtain by the\r\n * following expression:\r\n * ```javascript\r\n * link.strokeWidth * (1 / transform); // transform is a zoom delta Δ value\r\n * ```\r\n * @param {number} [link.markerHeight=6] - <a id=\"link-marker-height\" href=\"#link-marker-height\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/SVG/Attribute/markerHeight\">markerHeight</a>\r\n * property for the link arrowhead height. *Note: this property can only be set in the first mount, it does not update dynamically.*\r\n * @param {number} [link.markerWidth=6] - <a id=\"link-marker-width\" href=\"#link-marker-width\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/SVG/Attribute/markerWidth\">markerWidth</a>\r\n * property for the link arrowhead width. *Note: this property can only be set in the first mount, it does not update dynamically.*\r\n * @param {string} [link.type=\"STRAIGHT\"] - <a id=\"link-type\" href=\"#link-type\">🔗</a> 🔍🔍🔍 the type of line to draw, available types at this point are:\r\n * - \"STRAIGHT\" <small>(default)</small> - a straight line.\r\n * - \"CURVE_SMOOTH\" - a slight curve between two nodes\r\n * - \"CURVE_FULL\" - a semicircumference trajectory unites source and target nodes.\r\n * </br>\r\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-bend.gif?raw=true\" width=\"820\" height=\"480\"/>\r\n *\r\n * @example\r\n * // A simple config that uses some properties\r\n * const myConfig = {\r\n *     nodeHighlightBehavior: true,\r\n *     node: {\r\n *         color: \"lightgreen\",\r\n *         size: 120,\r\n *         highlightStrokeColor: \"blue\"\r\n *     },\r\n *     link: {\r\n *         highlightColor: \"lightblue\"\r\n *     }\r\n * };\r\n *\r\n * // Sorry for the long config description, here\"s a potato 🥔.\r\n */",
+        "comment": "/**\n * <div style=\"text-align: right;\"><i>This is certainly the only extra piece of documentation that you will ever need</i></div>\n * </br></br>\n * Here you can consult a detailed description of each graph configurable property as well as the default values\n * of those properties.\n *\n * <b>Note about performance</b></br>\n * Some of the properties have a major performance impact when toggled while rendering graphs of medium or large dimensions (hundreds or thousand of elements).\n * These properties are marked with 🚅🚅🚅.</br>\n * ⭐ <b>tip</b> <i>to achieve smoother interactions you may want to provide a toggle to set <b>staticGraph</b> or (better) <b>staticGraphWithDragAndDrop</b> to <b>true</b></i></br>\n * </br>\n * <b>Note about granularity</b></br>\n * Some of the properties listed in the <a href=\"#config-node\">Node section</a> are marked with 🔍🔍🔍. This means that this properties\n * have a higher level of granularity. These properties can be defined in the graph payload at a node level. (sample payload below)\n * ```javascript\n * const graph = {\n *     nodes: [\n *         {\n *             id: \"id\",\n *             color: \"red\",         // only this node will be red\n *             size: 300,            // only this node will have size 300\n *             symbolType: \"diamond\" // only this node will have \"diamond\" shape\n *         }\n *     ],\n *     links: [...]\n * };\n * ```\n *\n * </br>\n *\n * - <a href=\"#config-global\">Graph global configurations</a>\n * - <a href=\"#config-d3\">d3 level configurations</a>\n * - <a href=\"#config-node\">Node level configurations</a>\n * - <a href=\"#config-link\">Link level configurations</a>\n *\n * </br>\n *\n * <h2 id=\"config-global\"><a href=\"#config-global\">#</a>  Graph global configurations</h2>\n * @param {boolean} [automaticRearrangeAfterDropNode=false] - <a id=\"automatic-rearrange-after-drop-node\" href=\"#automatic-rearrange-after-drop-node\">🔗</a> 🚅🚅🚅 when true performing a node drag and drop should automatically\n * rearrange all nodes positions based on new position of dragged node (note: <b>staticGraph</b> should be false). A few notes on this property:\n * <ul>\n * <li><b>automaticRearrangeAfterDropNode</b> needs to be set before the first graph render. Only the first set value will take effect.</li>\n * <li><b>automaticRearrangeAfterDropNode</b> won't work together with <b>nodeHighlightBehavior</b> (currently a known limitation, to be address in the future <a href=\"https://github.com/danielcaldas/react-d3-graph/issues/261\" target=\"_blank\">GitHub issue #261</a>).</li>\n * </ul>\n * @param {boolean} [collapsible=false] - <a id=\"collapsible\" href=\"#collapsible\">🔗</a> 🚅🚅🚅 Allow leaf neighbors nodes to be collapsed (folded), this will allow users to clear the way out and focus on the parts of the graph that really matter.\n * To see an example of this behavior you can access <a href=\"https://danielcaldas.github.io/react-d3-graph/sandbox/index.html?data=marvel\" target=\"_blank\" title=\"sandbox collapsible example\">this sandbox link</a> that has a specific set up to experiment this feature. <b>NOTE</b>: At this moment\n * nodes without connections (orphan nodes) are not rendered when this property is activated (see <a target=\"_blank\" href=\"https://github.com/danielcaldas/react-d3-graph/issues/129\">GitHub issue #129</a>).\n * </br>\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-collapsible.gif?raw=true\" width=\"820\" height=\"480\"/>\n * @param {boolean} [directed=false] - <a id=\"directed\" href=\"#directed\">🔗</a> This property makes react-d3-graph handle your graph as a directed graph. It will\n * out of the box provide the look and feel of a directed graph and add directional semantic to links. You can see a sample in the image below.\n * </br>\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-directed.gif?raw=true\" width=\"820\" height=\"480\"/>\n * @param {number} [focusZoom=1] - <a id=\"focus-zoom\" href=\"#focus-zoom\">🔗</a> zoom that will be applied when the graph view is focused in a node. Its value must be between\n * <i>minZoom</i> and <i>maxZoom</i>. If the specified <i>focusZoom</i> is out of this range, <i>minZoom</i> or <i>maxZoom</i> will be applied instead.</br>\n * <b>NOTE</b>: This animation is not trigger by default. In order to trigger it you need to pass down to <code>react-d3-graph</code> the\n * node that you want to focus via prop <code>focusedNodeId</code> along side with nodes and links:\n *\n * ```javascript\n * const data = {\n *    nodes: this.state.data.nodes,\n *    links: this.state.data.links,\n *    focusedNodeId: \"nodeIdToTriggerZoomAnimation\"\n * };\n * ```\n *\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-zoom-animation.gif?raw=true\" width=\"820\" height=\"480\"/>\n *\n * @param {number} [focusAnimationDuration=0.75] - <a id=\"focus-animation-duration\" href=\"#focus-animation-duration\">🔗</a> duration (in seconds) for the animation that takes place when focusing the graph on a node.\n * @param {number} [height=400] - <a id=\"height\" href=\"#height\">🔗</a> the height of the (svg) area where the graph will be rendered.\n * @param {boolean} [nodeHighlightBehavior=false] - <a id=\"node-highlight-behavior\" href=\"#node-highlight-behavior\">🔗</a> 🚅🚅🚅 when user mouse hovers a node that node and adjacent common\n * connections will be highlighted (depending on the <i>highlightDegree</i> value). All the remaining nodes and links assume opacity value equal to <b>highlightOpacity</b>.\n * @param {boolean} [linkHighlightBehavior=false] - <a id=\"link-highlight-behavior\" href=\"#link-highlight-behavior\">🔗</a> 🚅🚅🚅 when the user mouse hovers some link that link and the correspondent nodes will be highlighted, this is a similar behavior\n * to <i>nodeHighlightBehavior</i> but for links <small>(just for historical reference this property was introduced in <a target=\"_blank\" href=\"https://github.com/danielcaldas/react-d3-graph/releases/tag/1.0.0\">v1.0.0</a>)</small>.\n * @param {number} [highlightDegree=1] - <a id=\"highlight-degree\" href=\"#highlight-degree\">🔗</a> <b>Possible values: 0, 1 or 2</b>. This value represents the range of the\n * highlight behavior when some node is highlighted. If the value is set to <b>0</b> only the selected node will be\n * highlighted. If the value is set to <b>1</b> the selected node and his 1st degree connections will be highlighted. If\n * the value is set to <b>2</b> the selected node will be highlighted as well as the 1st and 2nd common degree connections.\n * @param {number} [highlightOpacity=1] - <a id=\"highlight-opacity\" href=\"#highlight-opacity\">🔗</a> this value is used to highlight nodes in the network. The lower\n * the value the more the less highlighted nodes will be visible (related to <i>nodeHighlightBehavior</i>).\n * @param {number} [initialZoom=null] - <a id=\"max-zoom\" href=\"#initial-zoom\">🔗</a> initial zoom that can be set on the graph.\n * @param {number} [maxZoom=8] - <a id=\"max-zoom\" href=\"#max-zoom\">🔗</a> max zoom that can be performed against the graph.\n * @param {number} [minZoom=0.1] - <a id=\"min-zoom\" href=\"#min-zoom\">🔗</a> min zoom that can be performed against the graph.\n * @param {boolean} [panAndZoom=false] - <a id=\"pan-and-zoom\" href=\"#pan-and-zoom\">🔗</a> 🚅🚅🚅 pan and zoom effect when performing zoom in the graph,\n * a similar functionality may be consulted <a target=\"_blank\" href=\"https://bl.ocks.org/mbostock/2a39a768b1d4bc00a09650edef75ad39\">here</a>.\n * @param {boolean} [staticGraph=false] - <a id=\"static-graph\" href=\"#static-graph\">🔗</a> when setting this value to true the graph will be completely static, thus\n * all forces and drag events upon nodes will produce not effect. Note that, if this value is true the nodes will be\n * rendered with the initial provided <b>x and y coordinates</b> (links positions will be automatically set\n * from the given nodes positions by rd3g), no coordinates will be calculated by rd3g or subjacent d3 modules.\n * @param {boolean} [staticGraphWithDragAndDrop] - <a id=\"static-graph-with-drag-and-drop\" href=\"#static-graph-with-drag-and-drop\">🔗</a> exactly the same as above <code>staticGraph</code>, but it will allow users to drag&drop nodes.\n * <b>Note</b>: If <code>staticGraph</code> is set to <code>true</code>, then <code>staticGraphWithDragAndDrop</code> will not produce the desired behaviour, make sure\n * to set only one of them to <code>true</code>.\n * @param {number} [width=800] - <a id=\"width\" href=\"#width\">🔗</a> the width of the (svg) area where the graph will be rendered.\n * </br>\n * @param {Object} d3 d3 object is explained in next section. ⬇️\n * <h2 id=\"config-d3\"><a href=\"#config-d3\">#</a> d3 level configurations</h2>\n * @param {number} [d3.alphaTarget=0.05] - <a id=\"d3-alpha-target\" href=\"#d3-alpha-target\">🔗</a> <a target=\"_blank\" href=\"https://github.com/d3/d3-force#simulation_alphaTarget\">see d3-force simulation.alphaTarget</a>\n * @param {number} [d3.gravity=-100] - <a id=\"d3-gravity\" href=\"#d3-gravity\">🔗</a> this will define how close nodes are to each other <a target=\"_blank\" href=\"https://github.com/d3/d3-force#forces\">see d3 reference for forces</a>.\n *  - If value is positive, nodes will attract each other.\n *  - If value is negative, nodes will repel each other. Most of the times this is what we want, so nodes don\"t overlap.\n * @param {number} [d3.linkLength=100] - <a id=\"d3-link-length\" href=\"#d3-link-length\">🔗</a> the length of each link from the center of the nodes it joins.\n * @param {number} [d3.linkStrength=1] - <a id=\"d3-link-strength\" href=\"#d3-link-strength\">🔗</a> <a target=\"_blank\" href=\"https://github.com/d3/d3-force#link_strength\">see d3-force link.strength</a>\n * @param {boolean} [d3.disableLinkForce=false] - <a id=\"d3-disable-link-force\" href=\"#d3-disable-link-force\">🔗</a> ⚠️🧪EXPERIMENTAL🧪⚠️ it completely disables d3 force link and simulation to re-trigger so that one can obtain\n * precise render of node positions as described by the author <a target=\"_blank\" href=\"https://github.com/antoninklopp\">@antoninklopp</a> in <a target=\"_blank\" href=\"https://github.com/danielcaldas/react-d3-graph/pull/278\">the Pull Request description</a>.\n * </br>\n * @param {Object} node node object is explained in next section. ⬇️\n * <h2 id=\"config-node\"><a href=\"#config-node\">#</a> Node level configurations</h2>\n * @param {string} [node.color=\"#d3d3d3\"] - <a id=\"node-color\" href=\"#node-color\">🔗</a> 🔍🔍🔍 this is the color that will be applied to the node if no <b>color property</b></br>\n * is found inside the node itself (yes <b>you can pass a property \"color\" inside</b></br>\n * <b>the node and that color will override the this default one</b>).\n * @param {string} [node.fontColor=\"black\"] - <a id=\"node-font-color\" href=\"#node-font-color\">🔗</a> 🔍🔍🔍 fill color for node\"s <text> svg label.\n * @param {number} [node.fontSize=8] - <a id=\"node-font-size\" href=\"#node-font-size\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/font-size?v=control\">font-size</a>\n * property for all nodes\" labels.\n * @param {string} [node.fontWeight=\"normal\"] - <a id=\"node-font-weight\" href=\"#node-font-weight\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/font-weight?v=control\">font-weight</a>\n * property for all nodes\" labels.\n * @param {string} [node.highlightColor=\"SAME\"] - <a id=\"node-highlight-color\" href=\"#node-highlight-color\">🔗</a> color for all highlighted nodes (use string \"SAME\" if you\n * want the node to keep its color in highlighted state).\n * @param {number} [node.highlightFontSize=8] - <a id=\"node-highlight-font-size\" href=\"#node-highlight-font-size\">🔗</a> fontSize in highlighted state.\n * @param {string} [node.highlightFontWeight=\"normal\"] - <a id=\"node-highlight-font-weight\" href=\"#node-highlight-font-weight\">🔗</a> fontWeight in highlighted state.\n * @param {string} [node.highlightStrokeColor=\"SAME\"] - <a id=\"node-stroke-color\" href=\"#node-stroke-color\">🔗</a> strokeColor in highlighted state.\n * @param {number} [node.highlightStrokeWidth=\"SAME\"] - <a id=\"node-stroke-width\" href=\"#node-stroke-width\">🔗</a> strokeWidth in highlighted state.\n * @param {string} [node.labelPosition=null] - <a id=\"node-label-position\" href=\"#node-label-position\">🔗</a> 🔍🔍🔍 location to place node label relative to node.\n * The placement options are:\n *   - \"left\"\n *   - \"right\"\n *   - \"top\"\n *   - \"bottom\"\n *   - \"center\"\n *\n * <b>[note]</b> not specifying a label position will fallback to the original placement scheme of to the right of the node. This is different than the implementation for \"right\", which has the label shifted very slightly upward compared to the original.\n * @param {string|Function} [node.labelProperty=\"id\"] - <a id=\"node-label-property\" href=\"#node-label-property\">🔗</a> this is the node property that will be used in runtime to</br>\n * fetch the label content. You just need to add some property (e.g. firstName) to the node payload and then set</br>\n * node.labelProperty to be <b>\"firstName\"</b>. <b>This can also be a function!</b>, if you pass a function here it will be called</br>\n * to obtain the <code>label</code> value on the fly, as a client you will receive all the node information that you passed down into react-d3-graph,</br>\n * so the signature of the function would be:\n * ```javascript\n * function myCustomLabelBuilder(node) {\n *     // do stuff to get the final result...\n *     return \"label string\";\n * }\n * ```\n * Then you just need to make sure that you pass this function in the config in <code>config.node.labelProperty</code>.\n * </br>\n * @param {string} [node.mouseCursor=\"pointer\"] - <a id=\"node-pointer\" href=\"#node-pointer\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/cursor?v=control\">cursor</a>\n * property for when some node is mouse hovered.\n * @param {number} [node.opacity=1] - <a id=\"node-opacity\" href=\"#node-opacity\">🔗</a> 🔍🔍🔍 by default all nodes will have this opacity value.\n * @param {boolean} [node.renderLabel=true] - <a id=\"node-render-label\" href=\"#node-render-label\">🔗</a> 🔍🔍🔍 when set to false no labels will appear along side nodes in the\n * graph.\n * @param {number|Object} [node.size=200] - <a id=\"node-size\" href=\"#node-size\">🔗</a> 🔍🔍🔍 defines the size of all nodes. When set to a number, the node will have equal height and width.</br>\n * This can also be an object with a height and width property <b>when using custom nodes</b>.\n * ```javascript\n * size: 200\n * // or\n * size: {\n *    height: 200,\n *    width: 300,\n * }\n * ```\n * The actual node dimensions (in px) rendered on screen will be the size value divided by 10. For example, a node size of 200 will result in a node with a height and width of 20px.\n * @param {string} [node.strokeColor=\"none\"] - <a id=\"node-stroke-color\" href=\"#node-stroke-color\">🔗</a> 🔍🔍🔍  this is the stroke color that will be applied to the node if no <b>strokeColor property</b> is found inside the node itself (yes <b>you can pass a property \"strokeColor\" inside the node and that stroke color will override this default one</b>).\n * @param {number} [node.strokeWidth=1.5] - <a id=\"node-stroke-width\" href=\"#node-stroke-width\">🔗</a> 🔍🔍🔍 the width of the all node strokes.\n * @param {string} [node.svg=\"\"] - <a id=\"node-svg\" href=\"#node-svg\">🔗</a> 🔍🔍🔍 render custom svg for nodes in alternative to <b>node.symbolType</b>. This svg can\n * be provided as a string to either a remote svg resource or for a local one.\n * </br>\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-custom-svg.gif?raw=true\" width=\"820\" height=\"480\"/>\n * @param {string} [node.symbolType=\"circle\"] - <a id=\"node-symbol-type\" href=\"#node-symbol-type\">🔗</a> 🔍🔍🔍 the <a id=\"node-symbol-type\">shape</span> of the node.\n * Use the following values under a property <b>type</b> inside each node (nodes may have different types, same as colors):\n *   - \"circle\"\n *   - \"cross\"\n *   - \"diamond\"\n *   - \"square\"\n *   - \"star\"\n *   - \"triangle\"\n *   - \"wye\"\n *\n * <b>[note]</b> react-d3-graph will map this values to <a target=\"_blank\" href=\"https://github.com/d3/d3-shape#symbols\">d3 symbols</a>\n * @param {Function} [node.viewGenerator=null] - <a id=\"node-view-generator\" href=\"#node-view-generator\">🔗</a> 🔍🔍🔍 function that receives a node and returns a JSX view.\n * </br>\n * @param {Object} link link object is explained in the next section. ⬇️\n * <h2 id=\"config-link\"><a href=\"#config-link\">#</a> Link level configurations</h2>\n * @param {string} [link.color=\"#d3d3d3\"] - <a id=\"link-color\" href=\"#link-color\">🔗</a> 🔍🔍🔍 the color for links\n * (from version 1.3.0 this property can be configured at link level).\n * @param {string} [link.fontColor=\"black\"] - <a id=\"link-font-color\" href=\"#link-font-color\">🔗</a> 🔍🔍🔍 fill color for link's <text> svg label.\n * @param {number} [link.fontSize=8] - <a id=\"link-font-size\" href=\"#link-font-size\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/font-size?v=control\">font-size</a>\n * property for all links' labels.\n * @param {string} [link.fontWeight=\"normal\"] - <a id=\"link-font-weight\" href=\"#link-font-weight\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/font-weight?v=control\">font-weight</a>\n * property for all links' labels.\n * @param {string} [link.highlightColor=\"SAME\"] - <a id=\"link-highlight-color\" href=\"#link-highlight-color\">🔗</a> links' color in highlight state, default being the same color as `link.color`.\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-bend.gif?raw=true\" width=\"820\" height=\"480\"/>\n * @param {number} [link.highlightFontSize=8] - <a id=\"link-highlight-font-size\" href=\"#link-highlight-font-size\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/font-size?v=control\">font-size</a> in highlighted state.\n * @param {string} [link.highlightFontWeight=\"normal\"] - <a id=\"link-highlight-font-weight\" href=\"#link-highlight-font-weight\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/font-weight?v=control\">font-weight</a> in highlighted state.\n * @param {string|Function} [link.labelProperty=\"label\"] - <a id=\"link-label-property\" href=\"#link-label-property\">🔗</a> the property that will be rendered as label within some link. Note that</br>\n * this property needs to be passed along the link payload (along side with source and target). This property can also be a function</br>\n * that receives the link itself as argument and returns a custom string, similarly to what happens with <code>node.labelProperty</code>.</br>\n * @param {string} [link.mouseCursor=\"pointer\"] - <a id=\"link-mouse-cursor\" href=\"#link-mouse-cursor\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/cursor?v=control\">cursor</a>\n * property for when link is mouse hovered.\n * @param {number} [link.opacity=1] 🔍🔍🔍 - <a href=\"#link-opacity\" href=\"\">🔗</a> the default opacity value for links.\n * @param {boolean} [link.renderLabel=false] - <a id=\"link-render-label\" href=\"#link-render-label\">🔗</a> when set to true labels will appear along side links in the\n * graph. <b>Note</b>: this will only happen of course if proper label is passed within the link, check also <code>link.labelProperty</code>.\n * </br>\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-link-render-label.png?raw=true\" width=\"820\" height=\"480\"/>\n * @param {boolean} [link.semanticStrokeWidth=false] - <a id=\"link-semantic-stroke-width\" href=\"#link-semantic-stroke-width\">🔗</a> when set to true all links will have\n * <i>\"semantic width\"</i>, this means that the width of the connections will be proportional to the value of each link.\n * This is how link strokeWidth will be calculated:\n * ```javascript\n * strokeWidth += (linkValue * strokeWidth) / 10;\n * ```\n * @param {number} [link.strokeWidth=1.5] - <a id=\"link-stroke-width\" href=\"#link-stroke-width\">🔗</a> 🔍🔍🔍 strokeWidth for all links. By default the actual value is obtain by the\n * following expression:\n * ```javascript\n * link.strokeWidth * (1 / transform); // transform is a zoom delta Δ value\n * ```\n * @param {number} [link.markerHeight=6] - <a id=\"link-marker-height\" href=\"#link-marker-height\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/SVG/Attribute/markerHeight\">markerHeight</a>\n * property for the link arrowhead height. *Note: this property can only be set in the first mount, it does not update dynamically.*\n * @param {number} [link.markerWidth=6] - <a id=\"link-marker-width\" href=\"#link-marker-width\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/SVG/Attribute/markerWidth\">markerWidth</a>\n * property for the link arrowhead width. *Note: this property can only be set in the first mount, it does not update dynamically.*\n * @param {string} [link.type=\"STRAIGHT\"] - <a id=\"link-type\" href=\"#link-type\">🔗</a> 🔍🔍🔍 the type of line to draw, available types at this point are:\n * - \"STRAIGHT\" <small>(default)</small> - a straight line.\n * - \"CURVE_SMOOTH\" - a slight curve between two nodes\n * - \"CURVE_FULL\" - a semicircumference trajectory unites source and target nodes.\n * </br>\n * <img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-bend.gif?raw=true\" width=\"820\" height=\"480\"/>\n *\n * @example\n * // A simple config that uses some properties\n * const myConfig = {\n *     nodeHighlightBehavior: true,\n *     node: {\n *         color: \"lightgreen\",\n *         size: 120,\n *         highlightStrokeColor: \"blue\"\n *     },\n *     link: {\n *         highlightColor: \"lightblue\"\n *     }\n * };\n *\n * // Sorry for the long config description, here\"s a potato 🥔.\n */",
         "meta": {
-            "range": [22006, 23766],
+            "range": [21767, 23461],
             "filename": "graph.config.js",
             "lineno": 240,
             "columnno": 0,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000002",
                 "name": "module.exports",
                 "type": "ObjectExpression"
             }
         },
-        "description": "<div style=\"text-align: right;\"><i>This is certainly the only extra piece of documentation that you will ever need</i></div>\r</br></br>\rHere you can consult a detailed description of each graph configurable property as well as the default values\rof those properties.\r\r<b>Note about performance</b></br>\rSome of the properties have a major performance impact when toggled while rendering graphs of medium or large dimensions (hundreds or thousand of elements).\rThese properties are marked with 🚅🚅🚅.</br>\r⭐ <b>tip</b> <i>to achieve smoother interactions you may want to provide a toggle to set <b>staticGraph</b> or (better) <b>staticGraphWithDragAndDrop</b> to <b>true</b></i></br>\r</br>\r<b>Note about granularity</b></br>\rSome of the properties listed in the <a href=\"#config-node\">Node section</a> are marked with 🔍🔍🔍. This means that this properties\rhave a higher level of granularity. These properties can be defined in the graph payload at a node level. (sample payload below)\r```javascript\rconst graph = {\r    nodes: [\r        {\r            id: \"id\",\r            color: \"red\",         // only this node will be red\r            size: 300,            // only this node will have size 300\r            symbolType: \"diamond\" // only this node will have \"diamond\" shape\r        }\r    ],\r    links: [...]\r};\r```\r\r</br>\r\r- <a href=\"#config-global\">Graph global configurations</a>\r- <a href=\"#config-d3\">d3 level configurations</a>\r- <a href=\"#config-node\">Node level configurations</a>\r- <a href=\"#config-link\">Link level configurations</a>\r\r</br>\r\r<h2 id=\"config-global\"><a href=\"#config-global\">#</a>  Graph global configurations</h2>",
+        "description": "<div style=\"text-align: right;\"><i>This is certainly the only extra piece of documentation that you will ever need</i></div>\n</br></br>\nHere you can consult a detailed description of each graph configurable property as well as the default values\nof those properties.\n\n<b>Note about performance</b></br>\nSome of the properties have a major performance impact when toggled while rendering graphs of medium or large dimensions (hundreds or thousand of elements).\nThese properties are marked with 🚅🚅🚅.</br>\n⭐ <b>tip</b> <i>to achieve smoother interactions you may want to provide a toggle to set <b>staticGraph</b> or (better) <b>staticGraphWithDragAndDrop</b> to <b>true</b></i></br>\n</br>\n<b>Note about granularity</b></br>\nSome of the properties listed in the <a href=\"#config-node\">Node section</a> are marked with 🔍🔍🔍. This means that this properties\nhave a higher level of granularity. These properties can be defined in the graph payload at a node level. (sample payload below)\n```javascript\nconst graph = {\n    nodes: [\n        {\n            id: \"id\",\n            color: \"red\",         // only this node will be red\n            size: 300,            // only this node will have size 300\n            symbolType: \"diamond\" // only this node will have \"diamond\" shape\n        }\n    ],\n    links: [...]\n};\n```\n\n</br>\n\n- <a href=\"#config-global\">Graph global configurations</a>\n- <a href=\"#config-d3\">d3 level configurations</a>\n- <a href=\"#config-node\">Node level configurations</a>\n- <a href=\"#config-link\">Link level configurations</a>\n\n</br>\n\n<h2 id=\"config-global\"><a href=\"#config-global\">#</a>  Graph global configurations</h2>",
         "params": [
             {
                 "type": {
@@ -21,7 +21,7 @@
                 },
                 "optional": true,
                 "defaultvalue": false,
-                "description": "<a id=\"automatic-rearrange-after-drop-node\" href=\"#automatic-rearrange-after-drop-node\">🔗</a> 🚅🚅🚅 when true performing a node drag and drop should automatically\rrearrange all nodes positions based on new position of dragged node (note: <b>staticGraph</b> should be false). A few notes on this property:\r<ul>\r<li><b>automaticRearrangeAfterDropNode</b> needs to be set before the first graph render. Only the first set value will take effect.</li>\r<li><b>automaticRearrangeAfterDropNode</b> won't work together with <b>nodeHighlightBehavior</b> (currently a known limitation, to be address in the future <a href=\"https://github.com/danielcaldas/react-d3-graph/issues/261\" target=\"_blank\">GitHub issue #261</a>).</li>\r</ul>",
+                "description": "<a id=\"automatic-rearrange-after-drop-node\" href=\"#automatic-rearrange-after-drop-node\">🔗</a> 🚅🚅🚅 when true performing a node drag and drop should automatically\nrearrange all nodes positions based on new position of dragged node (note: <b>staticGraph</b> should be false). A few notes on this property:\n<ul>\n<li><b>automaticRearrangeAfterDropNode</b> needs to be set before the first graph render. Only the first set value will take effect.</li>\n<li><b>automaticRearrangeAfterDropNode</b> won't work together with <b>nodeHighlightBehavior</b> (currently a known limitation, to be address in the future <a href=\"https://github.com/danielcaldas/react-d3-graph/issues/261\" target=\"_blank\">GitHub issue #261</a>).</li>\n</ul>",
                 "name": "automaticRearrangeAfterDropNode"
             },
             {
@@ -30,7 +30,7 @@
                 },
                 "optional": true,
                 "defaultvalue": false,
-                "description": "<a id=\"collapsible\" href=\"#collapsible\">🔗</a> 🚅🚅🚅 Allow leaf neighbors nodes to be collapsed (folded), this will allow users to clear the way out and focus on the parts of the graph that really matter.\rTo see an example of this behavior you can access <a href=\"https://danielcaldas.github.io/react-d3-graph/sandbox/index.html?data=marvel\" target=\"_blank\" title=\"sandbox collapsible example\">this sandbox link</a> that has a specific set up to experiment this feature. <b>NOTE</b>: At this moment\rnodes without connections (orphan nodes) are not rendered when this property is activated (see <a target=\"_blank\" href=\"https://github.com/danielcaldas/react-d3-graph/issues/129\">GitHub issue #129</a>).\r</br>\r<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-collapsible.gif?raw=true\" width=\"820\" height=\"480\"/>",
+                "description": "<a id=\"collapsible\" href=\"#collapsible\">🔗</a> 🚅🚅🚅 Allow leaf neighbors nodes to be collapsed (folded), this will allow users to clear the way out and focus on the parts of the graph that really matter.\nTo see an example of this behavior you can access <a href=\"https://danielcaldas.github.io/react-d3-graph/sandbox/index.html?data=marvel\" target=\"_blank\" title=\"sandbox collapsible example\">this sandbox link</a> that has a specific set up to experiment this feature. <b>NOTE</b>: At this moment\nnodes without connections (orphan nodes) are not rendered when this property is activated (see <a target=\"_blank\" href=\"https://github.com/danielcaldas/react-d3-graph/issues/129\">GitHub issue #129</a>).\n</br>\n<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-collapsible.gif?raw=true\" width=\"820\" height=\"480\"/>",
                 "name": "collapsible"
             },
             {
@@ -39,7 +39,7 @@
                 },
                 "optional": true,
                 "defaultvalue": false,
-                "description": "<a id=\"directed\" href=\"#directed\">🔗</a> This property makes react-d3-graph handle your graph as a directed graph. It will\rout of the box provide the look and feel of a directed graph and add directional semantic to links. You can see a sample in the image below.\r</br>\r<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-directed.gif?raw=true\" width=\"820\" height=\"480\"/>",
+                "description": "<a id=\"directed\" href=\"#directed\">🔗</a> This property makes react-d3-graph handle your graph as a directed graph. It will\nout of the box provide the look and feel of a directed graph and add directional semantic to links. You can see a sample in the image below.\n</br>\n<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-directed.gif?raw=true\" width=\"820\" height=\"480\"/>",
                 "name": "directed"
             },
             {
@@ -48,7 +48,7 @@
                 },
                 "optional": true,
                 "defaultvalue": 1,
-                "description": "<a id=\"focus-zoom\" href=\"#focus-zoom\">🔗</a> zoom that will be applied when the graph view is focused in a node. Its value must be between\r<i>minZoom</i> and <i>maxZoom</i>. If the specified <i>focusZoom</i> is out of this range, <i>minZoom</i> or <i>maxZoom</i> will be applied instead.</br>\r<b>NOTE</b>: This animation is not trigger by default. In order to trigger it you need to pass down to <code>react-d3-graph</code> the\rnode that you want to focus via prop <code>focusedNodeId</code> along side with nodes and links:\r\r```javascript\rconst data = {\r   nodes: this.state.data.nodes,\r   links: this.state.data.links,\r   focusedNodeId: \"nodeIdToTriggerZoomAnimation\"\r};\r```\r\r<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-zoom-animation.gif?raw=true\" width=\"820\" height=\"480\"/>",
+                "description": "<a id=\"focus-zoom\" href=\"#focus-zoom\">🔗</a> zoom that will be applied when the graph view is focused in a node. Its value must be between\n<i>minZoom</i> and <i>maxZoom</i>. If the specified <i>focusZoom</i> is out of this range, <i>minZoom</i> or <i>maxZoom</i> will be applied instead.</br>\n<b>NOTE</b>: This animation is not trigger by default. In order to trigger it you need to pass down to <code>react-d3-graph</code> the\nnode that you want to focus via prop <code>focusedNodeId</code> along side with nodes and links:\n\n```javascript\nconst data = {\n   nodes: this.state.data.nodes,\n   links: this.state.data.links,\n   focusedNodeId: \"nodeIdToTriggerZoomAnimation\"\n};\n```\n\n<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-zoom-animation.gif?raw=true\" width=\"820\" height=\"480\"/>",
                 "name": "focusZoom"
             },
             {
@@ -75,7 +75,7 @@
                 },
                 "optional": true,
                 "defaultvalue": false,
-                "description": "<a id=\"node-highlight-behavior\" href=\"#node-highlight-behavior\">🔗</a> 🚅🚅🚅 when user mouse hovers a node that node and adjacent common\rconnections will be highlighted (depending on the <i>highlightDegree</i> value). All the remaining nodes and links assume opacity value equal to <b>highlightOpacity</b>.",
+                "description": "<a id=\"node-highlight-behavior\" href=\"#node-highlight-behavior\">🔗</a> 🚅🚅🚅 when user mouse hovers a node that node and adjacent common\nconnections will be highlighted (depending on the <i>highlightDegree</i> value). All the remaining nodes and links assume opacity value equal to <b>highlightOpacity</b>.",
                 "name": "nodeHighlightBehavior"
             },
             {
@@ -84,7 +84,7 @@
                 },
                 "optional": true,
                 "defaultvalue": false,
-                "description": "<a id=\"link-highlight-behavior\" href=\"#link-highlight-behavior\">🔗</a> 🚅🚅🚅 when the user mouse hovers some link that link and the correspondent nodes will be highlighted, this is a similar behavior\rto <i>nodeHighlightBehavior</i> but for links <small>(just for historical reference this property was introduced in <a target=\"_blank\" href=\"https://github.com/danielcaldas/react-d3-graph/releases/tag/1.0.0\">v1.0.0</a>)</small>.",
+                "description": "<a id=\"link-highlight-behavior\" href=\"#link-highlight-behavior\">🔗</a> 🚅🚅🚅 when the user mouse hovers some link that link and the correspondent nodes will be highlighted, this is a similar behavior\nto <i>nodeHighlightBehavior</i> but for links <small>(just for historical reference this property was introduced in <a target=\"_blank\" href=\"https://github.com/danielcaldas/react-d3-graph/releases/tag/1.0.0\">v1.0.0</a>)</small>.",
                 "name": "linkHighlightBehavior"
             },
             {
@@ -93,7 +93,7 @@
                 },
                 "optional": true,
                 "defaultvalue": 1,
-                "description": "<a id=\"highlight-degree\" href=\"#highlight-degree\">🔗</a> <b>Possible values: 0, 1 or 2</b>. This value represents the range of the\rhighlight behavior when some node is highlighted. If the value is set to <b>0</b> only the selected node will be\rhighlighted. If the value is set to <b>1</b> the selected node and his 1st degree connections will be highlighted. If\rthe value is set to <b>2</b> the selected node will be highlighted as well as the 1st and 2nd common degree connections.",
+                "description": "<a id=\"highlight-degree\" href=\"#highlight-degree\">🔗</a> <b>Possible values: 0, 1 or 2</b>. This value represents the range of the\nhighlight behavior when some node is highlighted. If the value is set to <b>0</b> only the selected node will be\nhighlighted. If the value is set to <b>1</b> the selected node and his 1st degree connections will be highlighted. If\nthe value is set to <b>2</b> the selected node will be highlighted as well as the 1st and 2nd common degree connections.",
                 "name": "highlightDegree"
             },
             {
@@ -102,7 +102,7 @@
                 },
                 "optional": true,
                 "defaultvalue": 1,
-                "description": "<a id=\"highlight-opacity\" href=\"#highlight-opacity\">🔗</a> this value is used to highlight nodes in the network. The lower\rthe value the more the less highlighted nodes will be visible (related to <i>nodeHighlightBehavior</i>).",
+                "description": "<a id=\"highlight-opacity\" href=\"#highlight-opacity\">🔗</a> this value is used to highlight nodes in the network. The lower\nthe value the more the less highlighted nodes will be visible (related to <i>nodeHighlightBehavior</i>).",
                 "name": "highlightOpacity"
             },
             {
@@ -138,7 +138,7 @@
                 },
                 "optional": true,
                 "defaultvalue": false,
-                "description": "<a id=\"pan-and-zoom\" href=\"#pan-and-zoom\">🔗</a> 🚅🚅🚅 pan and zoom effect when performing zoom in the graph,\ra similar functionality may be consulted <a target=\"_blank\" href=\"https://bl.ocks.org/mbostock/2a39a768b1d4bc00a09650edef75ad39\">here</a>.",
+                "description": "<a id=\"pan-and-zoom\" href=\"#pan-and-zoom\">🔗</a> 🚅🚅🚅 pan and zoom effect when performing zoom in the graph,\na similar functionality may be consulted <a target=\"_blank\" href=\"https://bl.ocks.org/mbostock/2a39a768b1d4bc00a09650edef75ad39\">here</a>.",
                 "name": "panAndZoom"
             },
             {
@@ -147,7 +147,7 @@
                 },
                 "optional": true,
                 "defaultvalue": false,
-                "description": "<a id=\"static-graph\" href=\"#static-graph\">🔗</a> when setting this value to true the graph will be completely static, thus\rall forces and drag events upon nodes will produce not effect. Note that, if this value is true the nodes will be\rrendered with the initial provided <b>x and y coordinates</b> (links positions will be automatically set\rfrom the given nodes positions by rd3g), no coordinates will be calculated by rd3g or subjacent d3 modules.",
+                "description": "<a id=\"static-graph\" href=\"#static-graph\">🔗</a> when setting this value to true the graph will be completely static, thus\nall forces and drag events upon nodes will produce not effect. Note that, if this value is true the nodes will be\nrendered with the initial provided <b>x and y coordinates</b> (links positions will be automatically set\nfrom the given nodes positions by rd3g), no coordinates will be calculated by rd3g or subjacent d3 modules.",
                 "name": "staticGraph"
             },
             {
@@ -155,7 +155,7 @@
                     "names": ["boolean"]
                 },
                 "optional": true,
-                "description": "<a id=\"static-graph-with-drag-and-drop\" href=\"#static-graph-with-drag-and-drop\">🔗</a> exactly the same as above <code>staticGraph</code>, but it will allow users to drag&drop nodes.\r<b>Note</b>: If <code>staticGraph</code> is set to <code>true</code>, then <code>staticGraphWithDragAndDrop</code> will not produce the desired behaviour, make sure\rto set only one of them to <code>true</code>.",
+                "description": "<a id=\"static-graph-with-drag-and-drop\" href=\"#static-graph-with-drag-and-drop\">🔗</a> exactly the same as above <code>staticGraph</code>, but it will allow users to drag&drop nodes.\n<b>Note</b>: If <code>staticGraph</code> is set to <code>true</code>, then <code>staticGraphWithDragAndDrop</code> will not produce the desired behaviour, make sure\nto set only one of them to <code>true</code>.",
                 "name": "staticGraphWithDragAndDrop"
             },
             {
@@ -164,14 +164,14 @@
                 },
                 "optional": true,
                 "defaultvalue": 800,
-                "description": "<a id=\"width\" href=\"#width\">🔗</a> the width of the (svg) area where the graph will be rendered.\r</br>",
+                "description": "<a id=\"width\" href=\"#width\">🔗</a> the width of the (svg) area where the graph will be rendered.\n</br>",
                 "name": "width"
             },
             {
                 "type": {
                     "names": ["Object"]
                 },
-                "description": "d3 object is explained in next section. ⬇️\r<h2 id=\"config-d3\"><a href=\"#config-d3\">#</a> d3 level configurations</h2>",
+                "description": "d3 object is explained in next section. ⬇️\n<h2 id=\"config-d3\"><a href=\"#config-d3\">#</a> d3 level configurations</h2>",
                 "name": "d3"
             },
             {
@@ -189,7 +189,7 @@
                 },
                 "optional": true,
                 "defaultvalue": -100,
-                "description": "<a id=\"d3-gravity\" href=\"#d3-gravity\">🔗</a> this will define how close nodes are to each other <a target=\"_blank\" href=\"https://github.com/d3/d3-force#forces\">see d3 reference for forces</a>.\r - If value is positive, nodes will attract each other.\r - If value is negative, nodes will repel each other. Most of the times this is what we want, so nodes don\"t overlap.",
+                "description": "<a id=\"d3-gravity\" href=\"#d3-gravity\">🔗</a> this will define how close nodes are to each other <a target=\"_blank\" href=\"https://github.com/d3/d3-force#forces\">see d3 reference for forces</a>.\n - If value is positive, nodes will attract each other.\n - If value is negative, nodes will repel each other. Most of the times this is what we want, so nodes don\"t overlap.",
                 "name": "d3.gravity"
             },
             {
@@ -216,14 +216,14 @@
                 },
                 "optional": true,
                 "defaultvalue": false,
-                "description": "<a id=\"d3-disable-link-force\" href=\"#d3-disable-link-force\">🔗</a> ⚠️🧪EXPERIMENTAL🧪⚠️ it completely disables d3 force link and simulation to re-trigger so that one can obtain\rprecise render of node positions as described by the author <a target=\"_blank\" href=\"https://github.com/antoninklopp\">@antoninklopp</a> in <a target=\"_blank\" href=\"https://github.com/danielcaldas/react-d3-graph/pull/278\">the Pull Request description</a>.\r</br>",
+                "description": "<a id=\"d3-disable-link-force\" href=\"#d3-disable-link-force\">🔗</a> ⚠️🧪EXPERIMENTAL🧪⚠️ it completely disables d3 force link and simulation to re-trigger so that one can obtain\nprecise render of node positions as described by the author <a target=\"_blank\" href=\"https://github.com/antoninklopp\">@antoninklopp</a> in <a target=\"_blank\" href=\"https://github.com/danielcaldas/react-d3-graph/pull/278\">the Pull Request description</a>.\n</br>",
                 "name": "d3.disableLinkForce"
             },
             {
                 "type": {
                     "names": ["Object"]
                 },
-                "description": "node object is explained in next section. ⬇️\r<h2 id=\"config-node\"><a href=\"#config-node\">#</a> Node level configurations</h2>",
+                "description": "node object is explained in next section. ⬇️\n<h2 id=\"config-node\"><a href=\"#config-node\">#</a> Node level configurations</h2>",
                 "name": "node"
             },
             {
@@ -232,7 +232,7 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"#d3d3d3\"",
-                "description": "<a id=\"node-color\" href=\"#node-color\">🔗</a> 🔍🔍🔍 this is the color that will be applied to the node if no <b>color property</b></br>\ris found inside the node itself (yes <b>you can pass a property \"color\" inside</b></br>\r<b>the node and that color will override the this default one</b>).",
+                "description": "<a id=\"node-color\" href=\"#node-color\">🔗</a> 🔍🔍🔍 this is the color that will be applied to the node if no <b>color property</b></br>\nis found inside the node itself (yes <b>you can pass a property \"color\" inside</b></br>\n<b>the node and that color will override the this default one</b>).",
                 "name": "node.color"
             },
             {
@@ -250,7 +250,7 @@
                 },
                 "optional": true,
                 "defaultvalue": 8,
-                "description": "<a id=\"node-font-size\" href=\"#node-font-size\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/font-size?v=control\">font-size</a>\rproperty for all nodes\" labels.",
+                "description": "<a id=\"node-font-size\" href=\"#node-font-size\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/font-size?v=control\">font-size</a>\nproperty for all nodes\" labels.",
                 "name": "node.fontSize"
             },
             {
@@ -259,7 +259,7 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"normal\"",
-                "description": "<a id=\"node-font-weight\" href=\"#node-font-weight\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/font-weight?v=control\">font-weight</a>\rproperty for all nodes\" labels.",
+                "description": "<a id=\"node-font-weight\" href=\"#node-font-weight\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/font-weight?v=control\">font-weight</a>\nproperty for all nodes\" labels.",
                 "name": "node.fontWeight"
             },
             {
@@ -268,7 +268,7 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"SAME\"",
-                "description": "<a id=\"node-highlight-color\" href=\"#node-highlight-color\">🔗</a> color for all highlighted nodes (use string \"SAME\" if you\rwant the node to keep its color in highlighted state).",
+                "description": "<a id=\"node-highlight-color\" href=\"#node-highlight-color\">🔗</a> color for all highlighted nodes (use string \"SAME\" if you\nwant the node to keep its color in highlighted state).",
                 "name": "node.highlightColor"
             },
             {
@@ -313,7 +313,7 @@
                 },
                 "optional": true,
                 "defaultvalue": null,
-                "description": "<a id=\"node-label-position\" href=\"#node-label-position\">🔗</a> 🔍🔍🔍 location to place node label relative to node.\rThe placement options are:\r  - \"left\"\r  - \"right\"\r  - \"top\"\r  - \"bottom\"\r  - \"center\"\r\r<b>[note]</b> not specifying a label position will fallback to the original placement scheme of to the right of the node. This is different than the implementation for \"right\", which has the label shifted very slightly upward compared to the original.",
+                "description": "<a id=\"node-label-position\" href=\"#node-label-position\">🔗</a> 🔍🔍🔍 location to place node label relative to node.\nThe placement options are:\n  - \"left\"\n  - \"right\"\n  - \"top\"\n  - \"bottom\"\n  - \"center\"\n\n<b>[note]</b> not specifying a label position will fallback to the original placement scheme of to the right of the node. This is different than the implementation for \"right\", which has the label shifted very slightly upward compared to the original.",
                 "name": "node.labelPosition"
             },
             {
@@ -322,7 +322,7 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"id\"",
-                "description": "<a id=\"node-label-property\" href=\"#node-label-property\">🔗</a> this is the node property that will be used in runtime to</br>\rfetch the label content. You just need to add some property (e.g. firstName) to the node payload and then set</br>\rnode.labelProperty to be <b>\"firstName\"</b>. <b>This can also be a function!</b>, if you pass a function here it will be called</br>\rto obtain the <code>label</code> value on the fly, as a client you will receive all the node information that you passed down into react-d3-graph,</br>\rso the signature of the function would be:\r```javascript\rfunction myCustomLabelBuilder(node) {\r    // do stuff to get the final result...\r    return \"label string\";\r}\r```\rThen you just need to make sure that you pass this function in the config in <code>config.node.labelProperty</code>.\r</br>",
+                "description": "<a id=\"node-label-property\" href=\"#node-label-property\">🔗</a> this is the node property that will be used in runtime to</br>\nfetch the label content. You just need to add some property (e.g. firstName) to the node payload and then set</br>\nnode.labelProperty to be <b>\"firstName\"</b>. <b>This can also be a function!</b>, if you pass a function here it will be called</br>\nto obtain the <code>label</code> value on the fly, as a client you will receive all the node information that you passed down into react-d3-graph,</br>\nso the signature of the function would be:\n```javascript\nfunction myCustomLabelBuilder(node) {\n    // do stuff to get the final result...\n    return \"label string\";\n}\n```\nThen you just need to make sure that you pass this function in the config in <code>config.node.labelProperty</code>.\n</br>",
                 "name": "node.labelProperty"
             },
             {
@@ -331,7 +331,7 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"pointer\"",
-                "description": "<a id=\"node-pointer\" href=\"#node-pointer\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/cursor?v=control\">cursor</a>\rproperty for when some node is mouse hovered.",
+                "description": "<a id=\"node-pointer\" href=\"#node-pointer\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/cursor?v=control\">cursor</a>\nproperty for when some node is mouse hovered.",
                 "name": "node.mouseCursor"
             },
             {
@@ -349,7 +349,7 @@
                 },
                 "optional": true,
                 "defaultvalue": true,
-                "description": "<a id=\"node-render-label\" href=\"#node-render-label\">🔗</a> 🔍🔍🔍 when set to false no labels will appear along side nodes in the\rgraph.",
+                "description": "<a id=\"node-render-label\" href=\"#node-render-label\">🔗</a> 🔍🔍🔍 when set to false no labels will appear along side nodes in the\ngraph.",
                 "name": "node.renderLabel"
             },
             {
@@ -358,7 +358,7 @@
                 },
                 "optional": true,
                 "defaultvalue": 200,
-                "description": "<a id=\"node-size\" href=\"#node-size\">🔗</a> 🔍🔍🔍 defines the size of all nodes. When set to a number, the node will have equal height and width.</br>\rThis can also be an object with a height and width property <b>when using custom nodes</b>.\r```javascript\rsize: 200\r// or\rsize: {\r   height: 200,\r   width: 300,\r}\r```\rThe actual node dimensions (in px) rendered on screen will be the size value divided by 10. For example, a node size of 200 will result in a node with a height and width of 20px.",
+                "description": "<a id=\"node-size\" href=\"#node-size\">🔗</a> 🔍🔍🔍 defines the size of all nodes. When set to a number, the node will have equal height and width.</br>\nThis can also be an object with a height and width property <b>when using custom nodes</b>.\n```javascript\nsize: 200\n// or\nsize: {\n   height: 200,\n   width: 300,\n}\n```\nThe actual node dimensions (in px) rendered on screen will be the size value divided by 10. For example, a node size of 200 will result in a node with a height and width of 20px.",
                 "name": "node.size"
             },
             {
@@ -385,7 +385,7 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"\"",
-                "description": "<a id=\"node-svg\" href=\"#node-svg\">🔗</a> 🔍🔍🔍 render custom svg for nodes in alternative to <b>node.symbolType</b>. This svg can\rbe provided as a string to either a remote svg resource or for a local one.\r</br>\r<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-custom-svg.gif?raw=true\" width=\"820\" height=\"480\"/>",
+                "description": "<a id=\"node-svg\" href=\"#node-svg\">🔗</a> 🔍🔍🔍 render custom svg for nodes in alternative to <b>node.symbolType</b>. This svg can\nbe provided as a string to either a remote svg resource or for a local one.\n</br>\n<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-custom-svg.gif?raw=true\" width=\"820\" height=\"480\"/>",
                 "name": "node.svg"
             },
             {
@@ -394,7 +394,7 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"circle\"",
-                "description": "<a id=\"node-symbol-type\" href=\"#node-symbol-type\">🔗</a> 🔍🔍🔍 the <a id=\"node-symbol-type\">shape</span> of the node.\rUse the following values under a property <b>type</b> inside each node (nodes may have different types, same as colors):\r  - \"circle\"\r  - \"cross\"\r  - \"diamond\"\r  - \"square\"\r  - \"star\"\r  - \"triangle\"\r  - \"wye\"\r\r<b>[note]</b> react-d3-graph will map this values to <a target=\"_blank\" href=\"https://github.com/d3/d3-shape#symbols\">d3 symbols</a>",
+                "description": "<a id=\"node-symbol-type\" href=\"#node-symbol-type\">🔗</a> 🔍🔍🔍 the <a id=\"node-symbol-type\">shape</span> of the node.\nUse the following values under a property <b>type</b> inside each node (nodes may have different types, same as colors):\n  - \"circle\"\n  - \"cross\"\n  - \"diamond\"\n  - \"square\"\n  - \"star\"\n  - \"triangle\"\n  - \"wye\"\n\n<b>[note]</b> react-d3-graph will map this values to <a target=\"_blank\" href=\"https://github.com/d3/d3-shape#symbols\">d3 symbols</a>",
                 "name": "node.symbolType"
             },
             {
@@ -403,14 +403,14 @@
                 },
                 "optional": true,
                 "defaultvalue": null,
-                "description": "<a id=\"node-view-generator\" href=\"#node-view-generator\">🔗</a> 🔍🔍🔍 function that receives a node and returns a JSX view.\r</br>",
+                "description": "<a id=\"node-view-generator\" href=\"#node-view-generator\">🔗</a> 🔍🔍🔍 function that receives a node and returns a JSX view.\n</br>",
                 "name": "node.viewGenerator"
             },
             {
                 "type": {
                     "names": ["Object"]
                 },
-                "description": "link object is explained in the next section. ⬇️\r<h2 id=\"config-link\"><a href=\"#config-link\">#</a> Link level configurations</h2>",
+                "description": "link object is explained in the next section. ⬇️\n<h2 id=\"config-link\"><a href=\"#config-link\">#</a> Link level configurations</h2>",
                 "name": "link"
             },
             {
@@ -419,7 +419,7 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"#d3d3d3\"",
-                "description": "<a id=\"link-color\" href=\"#link-color\">🔗</a> 🔍🔍🔍 the color for links\r(from version 1.3.0 this property can be configured at link level).",
+                "description": "<a id=\"link-color\" href=\"#link-color\">🔗</a> 🔍🔍🔍 the color for links\n(from version 1.3.0 this property can be configured at link level).",
                 "name": "link.color"
             },
             {
@@ -437,7 +437,7 @@
                 },
                 "optional": true,
                 "defaultvalue": 8,
-                "description": "<a id=\"link-font-size\" href=\"#link-font-size\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/font-size?v=control\">font-size</a>\rproperty for all links' labels.",
+                "description": "<a id=\"link-font-size\" href=\"#link-font-size\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en-US/docs/Web/CSS/font-size?v=control\">font-size</a>\nproperty for all links' labels.",
                 "name": "link.fontSize"
             },
             {
@@ -446,7 +446,7 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"normal\"",
-                "description": "<a id=\"link-font-weight\" href=\"#link-font-weight\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/font-weight?v=control\">font-weight</a>\rproperty for all links' labels.",
+                "description": "<a id=\"link-font-weight\" href=\"#link-font-weight\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/font-weight?v=control\">font-weight</a>\nproperty for all links' labels.",
                 "name": "link.fontWeight"
             },
             {
@@ -455,7 +455,7 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"SAME\"",
-                "description": "<a id=\"link-highlight-color\" href=\"#link-highlight-color\">🔗</a> links' color in highlight state, default being the same color as `link.color`.\r<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-bend.gif?raw=true\" width=\"820\" height=\"480\"/>",
+                "description": "<a id=\"link-highlight-color\" href=\"#link-highlight-color\">🔗</a> links' color in highlight state, default being the same color as `link.color`.\n<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-bend.gif?raw=true\" width=\"820\" height=\"480\"/>",
                 "name": "link.highlightColor"
             },
             {
@@ -482,7 +482,7 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"label\"",
-                "description": "<a id=\"link-label-property\" href=\"#link-label-property\">🔗</a> the property that will be rendered as label within some link. Note that</br>\rthis property needs to be passed along the link payload (along side with source and target). This property can also be a function</br>\rthat receives the link itself as argument and returns a custom string, similarly to what happens with <code>node.labelProperty</code>.</br>",
+                "description": "<a id=\"link-label-property\" href=\"#link-label-property\">🔗</a> the property that will be rendered as label within some link. Note that</br>\nthis property needs to be passed along the link payload (along side with source and target). This property can also be a function</br>\nthat receives the link itself as argument and returns a custom string, similarly to what happens with <code>node.labelProperty</code>.</br>",
                 "name": "link.labelProperty"
             },
             {
@@ -491,7 +491,7 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"pointer\"",
-                "description": "<a id=\"link-mouse-cursor\" href=\"#link-mouse-cursor\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/cursor?v=control\">cursor</a>\rproperty for when link is mouse hovered.",
+                "description": "<a id=\"link-mouse-cursor\" href=\"#link-mouse-cursor\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/CSS/cursor?v=control\">cursor</a>\nproperty for when link is mouse hovered.",
                 "name": "link.mouseCursor"
             },
             {
@@ -509,7 +509,7 @@
                 },
                 "optional": true,
                 "defaultvalue": false,
-                "description": "<a id=\"link-render-label\" href=\"#link-render-label\">🔗</a> when set to true labels will appear along side links in the\rgraph. <b>Note</b>: this will only happen of course if proper label is passed within the link, check also <code>link.labelProperty</code>.\r</br>\r<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-link-render-label.png?raw=true\" width=\"820\" height=\"480\"/>",
+                "description": "<a id=\"link-render-label\" href=\"#link-render-label\">🔗</a> when set to true labels will appear along side links in the\ngraph. <b>Note</b>: this will only happen of course if proper label is passed within the link, check also <code>link.labelProperty</code>.\n</br>\n<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-link-render-label.png?raw=true\" width=\"820\" height=\"480\"/>",
                 "name": "link.renderLabel"
             },
             {
@@ -518,7 +518,7 @@
                 },
                 "optional": true,
                 "defaultvalue": false,
-                "description": "<a id=\"link-semantic-stroke-width\" href=\"#link-semantic-stroke-width\">🔗</a> when set to true all links will have\r<i>\"semantic width\"</i>, this means that the width of the connections will be proportional to the value of each link.\rThis is how link strokeWidth will be calculated:\r```javascript\rstrokeWidth += (linkValue * strokeWidth) / 10;\r```",
+                "description": "<a id=\"link-semantic-stroke-width\" href=\"#link-semantic-stroke-width\">🔗</a> when set to true all links will have\n<i>\"semantic width\"</i>, this means that the width of the connections will be proportional to the value of each link.\nThis is how link strokeWidth will be calculated:\n```javascript\nstrokeWidth += (linkValue * strokeWidth) / 10;\n```",
                 "name": "link.semanticStrokeWidth"
             },
             {
@@ -527,7 +527,7 @@
                 },
                 "optional": true,
                 "defaultvalue": 1.5,
-                "description": "<a id=\"link-stroke-width\" href=\"#link-stroke-width\">🔗</a> 🔍🔍🔍 strokeWidth for all links. By default the actual value is obtain by the\rfollowing expression:\r```javascript\rlink.strokeWidth * (1 / transform); // transform is a zoom delta Δ value\r```",
+                "description": "<a id=\"link-stroke-width\" href=\"#link-stroke-width\">🔗</a> 🔍🔍🔍 strokeWidth for all links. By default the actual value is obtain by the\nfollowing expression:\n```javascript\nlink.strokeWidth * (1 / transform); // transform is a zoom delta Δ value\n```",
                 "name": "link.strokeWidth"
             },
             {
@@ -536,7 +536,7 @@
                 },
                 "optional": true,
                 "defaultvalue": 6,
-                "description": "<a id=\"link-marker-height\" href=\"#link-marker-height\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/SVG/Attribute/markerHeight\">markerHeight</a>\rproperty for the link arrowhead height. *Note: this property can only be set in the first mount, it does not update dynamically.*",
+                "description": "<a id=\"link-marker-height\" href=\"#link-marker-height\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/SVG/Attribute/markerHeight\">markerHeight</a>\nproperty for the link arrowhead height. *Note: this property can only be set in the first mount, it does not update dynamically.*",
                 "name": "link.markerHeight"
             },
             {
@@ -545,7 +545,7 @@
                 },
                 "optional": true,
                 "defaultvalue": 6,
-                "description": "<a id=\"link-marker-width\" href=\"#link-marker-width\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/SVG/Attribute/markerWidth\">markerWidth</a>\rproperty for the link arrowhead width. *Note: this property can only be set in the first mount, it does not update dynamically.*",
+                "description": "<a id=\"link-marker-width\" href=\"#link-marker-width\">🔗</a> <a target=\"_blank\" href=\"https://developer.mozilla.org/en/docs/Web/SVG/Attribute/markerWidth\">markerWidth</a>\nproperty for the link arrowhead width. *Note: this property can only be set in the first mount, it does not update dynamically.*",
                 "name": "link.markerWidth"
             },
             {
@@ -554,12 +554,12 @@
                 },
                 "optional": true,
                 "defaultvalue": "\"STRAIGHT\"",
-                "description": "<a id=\"link-type\" href=\"#link-type\">🔗</a> 🔍🔍🔍 the type of line to draw, available types at this point are:\r- \"STRAIGHT\" <small>(default)</small> - a straight line.\r- \"CURVE_SMOOTH\" - a slight curve between two nodes\r- \"CURVE_FULL\" - a semicircumference trajectory unites source and target nodes.\r</br>\r<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-bend.gif?raw=true\" width=\"820\" height=\"480\"/>",
+                "description": "<a id=\"link-type\" href=\"#link-type\">🔗</a> 🔍🔍🔍 the type of line to draw, available types at this point are:\n- \"STRAIGHT\" <small>(default)</small> - a straight line.\n- \"CURVE_SMOOTH\" - a slight curve between two nodes\n- \"CURVE_FULL\" - a semicircumference trajectory unites source and target nodes.\n</br>\n<img src=\"https://github.com/danielcaldas/react-d3-graph/blob/master/docs/rd3g-bend.gif?raw=true\" width=\"820\" height=\"480\"/>",
                 "name": "link.type"
             }
         ],
         "examples": [
-            "// A simple config that uses some properties\rconst myConfig = {\r    nodeHighlightBehavior: true,\r    node: {\r        color: \"lightgreen\",\r        size: 120,\r        highlightStrokeColor: \"blue\"\r    },\r    link: {\r        highlightColor: \"lightblue\"\r    }\r};\r\r// Sorry for the long config description, here\"s a potato 🥔."
+            "// A simple config that uses some properties\nconst myConfig = {\n    nodeHighlightBehavior: true,\n    node: {\n        color: \"lightgreen\",\n        size: 120,\n        highlightStrokeColor: \"blue\"\n    },\n    link: {\n        highlightColor: \"lightblue\"\n    }\n};\n\n// Sorry for the long config description, here\"s a potato 🥔."
         ],
         "name": "exports",
         "longname": "module.exports",
@@ -570,11 +570,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22028, 22066],
+            "range": [21788, 21826],
             "filename": "graph.config.js",
             "lineno": 241,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000004",
                 "name": "automaticRearrangeAfterDropNode",
@@ -592,11 +592,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22073, 22091],
+            "range": [21832, 21850],
             "filename": "graph.config.js",
             "lineno": 242,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000006",
                 "name": "collapsible",
@@ -614,11 +614,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22098, 22113],
+            "range": [21856, 21871],
             "filename": "graph.config.js",
             "lineno": 243,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000008",
                 "name": "directed",
@@ -636,11 +636,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22120, 22148],
+            "range": [21877, 21905],
             "filename": "graph.config.js",
             "lineno": 244,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000010",
                 "name": "focusAnimationDuration",
@@ -658,11 +658,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22155, 22167],
+            "range": [21911, 21923],
             "filename": "graph.config.js",
             "lineno": 245,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000012",
                 "name": "focusZoom",
@@ -680,11 +680,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22174, 22185],
+            "range": [21929, 21940],
             "filename": "graph.config.js",
             "lineno": 246,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000014",
                 "name": "height",
@@ -702,11 +702,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22192, 22210],
+            "range": [21946, 21964],
             "filename": "graph.config.js",
             "lineno": 247,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000016",
                 "name": "highlightDegree",
@@ -724,11 +724,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22217, 22236],
+            "range": [21970, 21989],
             "filename": "graph.config.js",
             "lineno": 248,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000018",
                 "name": "highlightOpacity",
@@ -746,11 +746,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22243, 22271],
+            "range": [21995, 22023],
             "filename": "graph.config.js",
             "lineno": 249,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000020",
                 "name": "linkHighlightBehavior",
@@ -768,11 +768,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22278, 22288],
+            "range": [22029, 22039],
             "filename": "graph.config.js",
             "lineno": 250,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000022",
                 "name": "maxZoom",
@@ -790,11 +790,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22295, 22307],
+            "range": [22045, 22057],
             "filename": "graph.config.js",
             "lineno": 251,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000024",
                 "name": "minZoom",
@@ -812,11 +812,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22314, 22331],
+            "range": [22063, 22080],
             "filename": "graph.config.js",
             "lineno": 252,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000026",
                 "name": "initialZoom",
@@ -834,11 +834,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22338, 22366],
+            "range": [22086, 22114],
             "filename": "graph.config.js",
             "lineno": 253,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000028",
                 "name": "nodeHighlightBehavior",
@@ -856,11 +856,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22373, 22390],
+            "range": [22120, 22137],
             "filename": "graph.config.js",
             "lineno": 254,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000030",
                 "name": "panAndZoom",
@@ -878,11 +878,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22397, 22415],
+            "range": [22143, 22161],
             "filename": "graph.config.js",
             "lineno": 255,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000032",
                 "name": "staticGraph",
@@ -900,11 +900,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22422, 22455],
+            "range": [22167, 22200],
             "filename": "graph.config.js",
             "lineno": 256,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000034",
                 "name": "staticGraphWithDragAndDrop",
@@ -922,11 +922,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22462, 22472],
+            "range": [22206, 22216],
             "filename": "graph.config.js",
             "lineno": 257,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000036",
                 "name": "width",
@@ -944,11 +944,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22479, 22629],
+            "range": [22222, 22366],
             "filename": "graph.config.js",
             "lineno": 258,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000038",
                 "name": "d3",
@@ -966,11 +966,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22494, 22511],
+            "range": [22236, 22253],
             "filename": "graph.config.js",
             "lineno": 259,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000040",
                 "name": "alphaTarget",
@@ -988,11 +988,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22522, 22535],
+            "range": [22263, 22276],
             "filename": "graph.config.js",
             "lineno": 260,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000042",
                 "name": "gravity",
@@ -1010,11 +1010,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22546, 22561],
+            "range": [22286, 22301],
             "filename": "graph.config.js",
             "lineno": 261,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000045",
                 "name": "linkLength",
@@ -1032,11 +1032,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22572, 22587],
+            "range": [22311, 22326],
             "filename": "graph.config.js",
             "lineno": 262,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000047",
                 "name": "linkStrength",
@@ -1054,11 +1054,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22598, 22621],
+            "range": [22336, 22359],
             "filename": "graph.config.js",
             "lineno": 263,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000049",
                 "name": "disableLinkForce",
@@ -1076,11 +1076,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22636, 23239],
+            "range": [22372, 22954],
             "filename": "graph.config.js",
             "lineno": 265,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000051",
                 "name": "node",
@@ -1098,11 +1098,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22653, 22669],
+            "range": [22388, 22404],
             "filename": "graph.config.js",
             "lineno": 266,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000053",
                 "name": "color",
@@ -1120,11 +1120,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22680, 22698],
+            "range": [22414, 22432],
             "filename": "graph.config.js",
             "lineno": 267,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000055",
                 "name": "fontColor",
@@ -1142,11 +1142,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22709, 22720],
+            "range": [22442, 22453],
             "filename": "graph.config.js",
             "lineno": 268,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000057",
                 "name": "fontSize",
@@ -1164,11 +1164,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22731, 22751],
+            "range": [22463, 22483],
             "filename": "graph.config.js",
             "lineno": 269,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000059",
                 "name": "fontWeight",
@@ -1186,11 +1186,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22762, 22784],
+            "range": [22493, 22515],
             "filename": "graph.config.js",
             "lineno": 270,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000061",
                 "name": "highlightColor",
@@ -1208,11 +1208,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22795, 22815],
+            "range": [22525, 22545],
             "filename": "graph.config.js",
             "lineno": 271,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000063",
                 "name": "highlightFontSize",
@@ -1230,11 +1230,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22826, 22855],
+            "range": [22555, 22584],
             "filename": "graph.config.js",
             "lineno": 272,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000065",
                 "name": "highlightFontWeight",
@@ -1252,11 +1252,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22866, 22894],
+            "range": [22594, 22622],
             "filename": "graph.config.js",
             "lineno": 273,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000067",
                 "name": "highlightStrokeColor",
@@ -1274,11 +1274,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22905, 22933],
+            "range": [22632, 22660],
             "filename": "graph.config.js",
             "lineno": 274,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000069",
                 "name": "highlightStrokeWidth",
@@ -1296,11 +1296,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22944, 22963],
+            "range": [22670, 22689],
             "filename": "graph.config.js",
             "lineno": 275,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000071",
                 "name": "labelProperty",
@@ -1318,11 +1318,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [22974, 22993],
+            "range": [22699, 22718],
             "filename": "graph.config.js",
             "lineno": 276,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000073",
                 "name": "labelPosition",
@@ -1340,11 +1340,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23004, 23026],
+            "range": [22728, 22750],
             "filename": "graph.config.js",
             "lineno": 277,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000075",
                 "name": "mouseCursor",
@@ -1362,11 +1362,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23037, 23047],
+            "range": [22760, 22770],
             "filename": "graph.config.js",
             "lineno": 278,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000077",
                 "name": "opacity",
@@ -1384,11 +1384,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23058, 23075],
+            "range": [22780, 22797],
             "filename": "graph.config.js",
             "lineno": 279,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000079",
                 "name": "renderLabel",
@@ -1406,11 +1406,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23086, 23095],
+            "range": [22807, 22816],
             "filename": "graph.config.js",
             "lineno": 280,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000081",
                 "name": "size",
@@ -1428,11 +1428,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23106, 23125],
+            "range": [22826, 22845],
             "filename": "graph.config.js",
             "lineno": 281,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000083",
                 "name": "strokeColor",
@@ -1450,11 +1450,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23136, 23152],
+            "range": [22855, 22871],
             "filename": "graph.config.js",
             "lineno": 282,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000085",
                 "name": "strokeWidth",
@@ -1472,11 +1472,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23163, 23170],
+            "range": [22881, 22888],
             "filename": "graph.config.js",
             "lineno": 283,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000087",
                 "name": "svg",
@@ -1494,11 +1494,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23181, 23201],
+            "range": [22898, 22918],
             "filename": "graph.config.js",
             "lineno": 284,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000089",
                 "name": "symbolType",
@@ -1516,11 +1516,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23212, 23231],
+            "range": [22928, 22947],
             "filename": "graph.config.js",
             "lineno": 285,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000091",
                 "name": "viewGenerator",
@@ -1538,11 +1538,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23246, 23761],
+            "range": [22960, 23457],
             "filename": "graph.config.js",
             "lineno": 287,
             "columnno": 4,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000093",
                 "name": "link",
@@ -1560,11 +1560,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23263, 23282],
+            "range": [22976, 22995],
             "filename": "graph.config.js",
             "lineno": 288,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000095",
                 "name": "linkFocusable",
@@ -1582,11 +1582,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23293, 23309],
+            "range": [23005, 23021],
             "filename": "graph.config.js",
             "lineno": 289,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000097",
                 "name": "color",
@@ -1604,11 +1604,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23320, 23338],
+            "range": [23031, 23049],
             "filename": "graph.config.js",
             "lineno": 290,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000099",
                 "name": "fontColor",
@@ -1626,11 +1626,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23349, 23360],
+            "range": [23059, 23070],
             "filename": "graph.config.js",
             "lineno": 291,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000101",
                 "name": "fontSize",
@@ -1648,11 +1648,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23371, 23391],
+            "range": [23080, 23100],
             "filename": "graph.config.js",
             "lineno": 292,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000103",
                 "name": "fontWeight",
@@ -1670,11 +1670,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23402, 23424],
+            "range": [23110, 23132],
             "filename": "graph.config.js",
             "lineno": 293,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000105",
                 "name": "highlightColor",
@@ -1692,11 +1692,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23435, 23455],
+            "range": [23142, 23162],
             "filename": "graph.config.js",
             "lineno": 294,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000107",
                 "name": "highlightFontSize",
@@ -1714,11 +1714,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23466, 23495],
+            "range": [23172, 23201],
             "filename": "graph.config.js",
             "lineno": 295,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000109",
                 "name": "highlightFontWeight",
@@ -1736,11 +1736,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23506, 23528],
+            "range": [23211, 23233],
             "filename": "graph.config.js",
             "lineno": 296,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000111",
                 "name": "labelProperty",
@@ -1758,11 +1758,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23539, 23561],
+            "range": [23243, 23265],
             "filename": "graph.config.js",
             "lineno": 297,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000113",
                 "name": "mouseCursor",
@@ -1780,11 +1780,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23572, 23582],
+            "range": [23275, 23285],
             "filename": "graph.config.js",
             "lineno": 298,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000115",
                 "name": "opacity",
@@ -1802,11 +1802,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23593, 23611],
+            "range": [23295, 23313],
             "filename": "graph.config.js",
             "lineno": 299,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000117",
                 "name": "renderLabel",
@@ -1824,11 +1824,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23622, 23648],
+            "range": [23323, 23349],
             "filename": "graph.config.js",
             "lineno": 300,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000119",
                 "name": "semanticStrokeWidth",
@@ -1846,11 +1846,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23659, 23675],
+            "range": [23359, 23375],
             "filename": "graph.config.js",
             "lineno": 301,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000121",
                 "name": "strokeWidth",
@@ -1868,11 +1868,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23686, 23701],
+            "range": [23385, 23400],
             "filename": "graph.config.js",
             "lineno": 302,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000123",
                 "name": "markerHeight",
@@ -1890,11 +1890,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23712, 23726],
+            "range": [23410, 23424],
             "filename": "graph.config.js",
             "lineno": 303,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000125",
                 "name": "markerWidth",
@@ -1912,11 +1912,11 @@
     {
         "comment": "",
         "meta": {
-            "range": [23737, 23753],
+            "range": [23434, 23450],
             "filename": "graph.config.js",
             "lineno": 304,
             "columnno": 8,
-            "path": "C:\\Work\\fluent-graph\\src\\components\\graph",
+            "path": "/Users/chuangyu/Projects/fluent-graph/src/components/graph",
             "code": {
                 "id": "astnode100000127",
                 "name": "type",
@@ -1934,6 +1934,6 @@
     {
         "kind": "package",
         "longname": "package:undefined",
-        "files": ["C:\\Work\\fluent-graph\\src\\components\\graph\\graph.config.js"]
+        "files": ["/Users/chuangyu/Projects/fluent-graph/src/components/graph/graph.config.js"]
     }
 ]

@@ -487,25 +487,28 @@ function getNormalizedNodeCoordinates({ source = {}, target = {} }, nodes, confi
         return { source, target };
     }
 
-    let { x: x1, y: y1 } = source;
-    let { x: x2, y: y2 } = target;
+    let { x: x1, y: y1, id: sourceId } = source;
+    let { x: x2, y: y2, id: targetId } = target;
 
     switch (config.node?.symbolType) {
         case CONST.SYMBOLS.CIRCLE: {
             const directionVector = normalize({ x: x2 - x1, y: y2 - y1 });
             const strokeSize = strokeWidth * Math.min(config.link.markerWidth, config.link.markerHeight);
-            let nodeSize = nodes?.[source]?.size || config.node.size;
+
+            const sourceNodeSize = nodes?.[sourceId]?.size || config.node.size;
+            const targetNodeSize = nodes?.[targetId]?.size || config.node.size;
 
             // cause this is a circle and A = pi * r^2
             // we multiply by 0.95, because if we don't the link is not melting properly
-            nodeSize = Math.sqrt(nodeSize / Math.PI) * 0.95;
+            const sourceRadius = Math.sqrt(sourceNodeSize / Math.PI);
+            const targetRadius = Math.sqrt(targetNodeSize / Math.PI);
 
             // points from the source, we move them not to begin in the circle but outside
-            x1 += nodeSize * directionVector.x;
-            y1 += nodeSize * directionVector.y;
+            x1 += sourceRadius * directionVector.x;
+            y1 += sourceRadius * directionVector.y;
             // points from the target, we move the by the size of the radius of the circle + the size of the arrow
-            x2 -= (nodeSize + (config.directed ? strokeSize : 0)) * directionVector.x;
-            y2 -= (nodeSize + (config.directed ? strokeSize : 0)) * directionVector.y;
+            x2 -= (targetRadius + (config.directed ? strokeSize : 0)) * directionVector.x;
+            y2 -= (targetRadius + (config.directed ? strokeSize : 0)) * directionVector.y;
             break;
         }
     }

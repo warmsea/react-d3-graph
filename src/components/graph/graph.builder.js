@@ -123,7 +123,7 @@ function buildLinkProps(link, nodes, links, config, linkCallbacks, highlightedNo
     }
 
     const normalizedNodeCoordinates = getNormalizedNodeCoordinates(
-        { source: { x: x1, y: y1 }, target: { x: x2, y: y2 } },
+        { source: { x: x1, y: y1, id: source }, target: { x: x2, y: y2, id: target } },
         nodes,
         config,
         strokeWidth

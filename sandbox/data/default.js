@@ -64,21 +64,33 @@ module.exports = {
     nodes: [
         {
             id: "Androsynth",
+            size: 300,
+            color: "rgba(255,0,0,0.5)",
         },
         {
             id: "Chenjesu",
+            size: 100,
+            color: "rgba(255,0,0,0.5)",
         },
         {
             id: "Ilwrath",
+            size: 400,
+            color: "rgba(255,0,0,0.5)",
         },
         {
             id: "Mycon",
+            size: 200,
+            color: "rgba(255,0,0,0.5)",
         },
         {
             id: "Spathi",
+            size: 50,
+            color: "rgba(255,0,0,0.5)",
         },
         {
             id: "Umgah",
+            size: 600,
+            color: "rgba(255,0,0,0.5)",
         },
         {
             id: "VUX",

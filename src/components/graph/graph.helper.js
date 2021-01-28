@@ -499,7 +499,6 @@ function getNormalizedNodeCoordinates({ source = {}, target = {} }, nodes, confi
             const targetNodeSize = nodes?.[targetId]?.size || config.node.size;
 
             // cause this is a circle and A = pi * r^2
-            // we multiply by 0.95, because if we don't the link is not melting properly
             const sourceRadius = Math.sqrt(sourceNodeSize / Math.PI);
             const targetRadius = Math.sqrt(targetNodeSize / Math.PI);
 

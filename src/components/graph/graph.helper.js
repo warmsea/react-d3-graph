@@ -498,9 +498,12 @@ function getNormalizedNodeCoordinates({ source = {}, target = {} }, nodes, confi
             const sourceNodeSize = nodes?.[sourceId]?.size || config.node.size;
             const targetNodeSize = nodes?.[targetId]?.size || config.node.size;
 
+            const sourceNodeRadius = nodes?.[sourceId]?.radius;
+            const targetNodeRadius = nodes?.[targetId]?.radius;
+
             // cause this is a circle and A = pi * r^2
-            const sourceRadius = Math.sqrt(sourceNodeSize / Math.PI);
-            const targetRadius = Math.sqrt(targetNodeSize / Math.PI);
+            const sourceRadius = sourceNodeRadius || Math.sqrt(sourceNodeSize / Math.PI);
+            const targetRadius = targetNodeRadius || Math.sqrt(targetNodeSize / Math.PI);
 
             // points from the source, we move them not to begin in the circle but outside
             x1 += sourceRadius * directionVector.x;

@@ -251,7 +251,7 @@ function _validateGraphData(data) {
 }
 
 // list of properties that are of no interest when it comes to nodes and links comparison
-const NODE_PROPERTIES_DISCARD_TO_COMPARE = ["x", "y", "vx", "vy", "index"];
+const NODE_PROPERTIES_DISCARD_TO_COMPARE = ["x", "y", "vx", "vy", "index", "highlighted"];
 
 /**
  * Picks the id.
@@ -288,7 +288,10 @@ function _pickSourceAndTarget(o) {
  */
 function checkForGraphElementsChanges(nextProps, currentState) {
     const nextNodes = nextProps.data.nodes.map(n => antiPick(n, NODE_PROPERTIES_DISCARD_TO_COMPARE));
-    const nextLinks = nextProps.data.links;
+    const nextLinks = nextProps.data.links.map(l => ({
+        source: getId(l.source),
+        target: getId(l.target),
+    }));
     const stateD3Nodes = currentState.d3Nodes.map(n => antiPick(n, NODE_PROPERTIES_DISCARD_TO_COMPARE));
     const stateD3Links = currentState.d3Links.map(l => ({
         source: getId(l.source),
@@ -319,6 +322,22 @@ function checkForGraphConfigChanges(nextProps, currentState) {
     const d3ConfigUpdated = newConfig && newConfig.d3 && !isDeepEqual(newConfig.d3, currentState.config.d3);
 
     return { configUpdated, d3ConfigUpdated };
+}
+
+/**
+ * Logic to check for changes of graph size.
+ * @param {Object} nextProps - nextProps that graph will receive.
+ * @param {Object} currentState - the current state of the graph.
+ * @returns {Boolean} returns whether graph size is updated.
+ * @memberof Graph/helper
+ */
+function checkForGraphSizeUpdated(nextProps, currentState) {
+    const newConfig = nextProps.config || {};
+    return (
+        newConfig &&
+        !isEmptyObject(newConfig) &&
+        (newConfig.width !== currentState.config.width || newConfig.height !== currentState.config.height)
+    );
 }
 
 /**
@@ -420,6 +439,7 @@ function initializeGraphState({ data, id, config }, state) {
         configUpdated: false,
         transform: 1,
         draggedNode: null,
+        graphSizeUpdated: false,
     };
 }
 
@@ -521,6 +541,7 @@ function getNormalizedNodeCoordinates({ source = {}, target = {} }, nodes, confi
 export {
     checkForGraphConfigChanges,
     checkForGraphElementsChanges,
+    checkForGraphSizeUpdated,
     getCenterAndZoomTransformation,
     getId,
     initializeGraphState,

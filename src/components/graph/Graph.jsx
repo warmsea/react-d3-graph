@@ -14,6 +14,7 @@ import {
     updateNodeHighlightedValue,
     checkForGraphConfigChanges,
     checkForGraphElementsChanges,
+    checkForGraphSizeUpdated,
     getCenterAndZoomTransformation,
     initializeGraphState,
 } from "./graph.helper";
@@ -548,7 +549,9 @@ export default class Graph extends React.Component {
     // eslint-disable-next-line
     UNSAFE_componentWillReceiveProps(nextProps) {
         const { graphElementsUpdated, newGraphElements } = checkForGraphElementsChanges(nextProps, this.state);
-        const state = graphElementsUpdated ? initializeGraphState(nextProps, this.state) : this.state;
+        const graphSizeUpdated = checkForGraphSizeUpdated(nextProps, this.state);
+        const state =
+            graphElementsUpdated || graphSizeUpdated ? initializeGraphState(nextProps, this.state) : this.state;
         const newConfig = nextProps.config || {};
         const { configUpdated, d3ConfigUpdated } = checkForGraphConfigChanges(nextProps, this.state);
         const config = configUpdated ? merge(DEFAULT_CONFIG, newConfig) : this.state.config;
@@ -578,6 +581,7 @@ export default class Graph extends React.Component {
             focusedNodeId,
             enableFocusAnimation,
             focusTransformation,
+            graphSizeUpdated,
         });
     }
 
@@ -589,14 +593,21 @@ export default class Graph extends React.Component {
             this.pauseSimulation();
         }
 
-        if (!this.state.config.staticGraph && (this.state.newGraphElements || this.state.d3ConfigUpdated)) {
+        if (
+            !this.state.config.staticGraph &&
+            (this.state.newGraphElements || this.state.d3ConfigUpdated || this.state.graphSizeUpdated)
+        ) {
             this._graphBindD3ToReactComponent();
 
             if (!this.state.config.staticGraphWithDragAndDrop) {
                 this.restartSimulation();
             }
 
-            this.setState({ newGraphElements: false, d3ConfigUpdated: false });
+            this.setState({
+                newGraphElements: false,
+                d3ConfigUpdated: false,
+                graphSizeUpdated: false,
+            });
         } else if (this.state.configUpdated) {
             this._graphNodeDragConfig();
         }

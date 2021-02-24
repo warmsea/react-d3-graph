@@ -14,6 +14,7 @@ import {
     updateNodeHighlightedValue,
     checkForGraphConfigChanges,
     checkForGraphElementsChanges,
+    checkForGraphSizeUpdated,
     getCenterAndZoomTransformation,
     initializeGraphState,
 } from "./graph.helper";
@@ -210,7 +211,7 @@ export default class Graph extends React.Component {
             this._tick({ draggedNode: null });
         }
 
-        !this.state.config.staticGraph &&
+        (this.state.config.staticGraphWithSimulation || !this.state.config.staticGraph) &&
             this.state.config.automaticRearrangeAfterDropNode &&
             this.state.simulation.alphaTarget(this.state.config.d3.alphaTarget).restart();
     };
@@ -498,7 +499,7 @@ export default class Graph extends React.Component {
      * @returns {undefined}
      */
     resetNodesPositions = () => {
-        if (!this.state.config.staticGraph) {
+        if (this.state.staticGraphWithSimulation || !this.state.config.staticGraph) {
             for (let nodeId in this.state.nodes) {
                 let node = this.state.nodes[nodeId];
 
@@ -519,7 +520,9 @@ export default class Graph extends React.Component {
      * {@link https://github.com/d3/d3-force#simulation_restart}
      * @returns {undefined}
      */
-    restartSimulation = () => !this.state.config.staticGraph && this.state.simulation.restart();
+    restartSimulation = () =>
+        (this.state.config.staticGraphWithSimulation || !this.state.config.staticGraph) &&
+        this.state.simulation.restart();
 
     constructor(props) {
         super(props);
@@ -548,7 +551,9 @@ export default class Graph extends React.Component {
     // eslint-disable-next-line
     UNSAFE_componentWillReceiveProps(nextProps) {
         const { graphElementsUpdated, newGraphElements } = checkForGraphElementsChanges(nextProps, this.state);
-        const state = graphElementsUpdated ? initializeGraphState(nextProps, this.state) : this.state;
+        const graphSizeUpdated = checkForGraphSizeUpdated(nextProps, this.state);
+        const state =
+            graphElementsUpdated || graphSizeUpdated ? initializeGraphState(nextProps, this.state) : this.state;
         const newConfig = nextProps.config || {};
         const { configUpdated, d3ConfigUpdated } = checkForGraphConfigChanges(nextProps, this.state);
         const config = configUpdated ? merge(DEFAULT_CONFIG, newConfig) : this.state.config;
@@ -578,25 +583,35 @@ export default class Graph extends React.Component {
             focusedNodeId,
             enableFocusAnimation,
             focusTransformation,
+            graphSizeUpdated,
         });
     }
 
     componentDidUpdate() {
         // if the property staticGraph was activated we want to stop possible ongoing simulation
-        const shouldPause = this.state.config.staticGraph || this.state.config.staticGraphWithDragAndDrop;
+        const shouldPause =
+            !this.state.config.staticGraphWithSimulation &&
+            (this.state.config.staticGraph || this.state.config.staticGraphWithDragAndDrop);
 
         if (shouldPause) {
             this.pauseSimulation();
         }
 
-        if (!this.state.config.staticGraph && (this.state.newGraphElements || this.state.d3ConfigUpdated)) {
+        if (
+            (this.state.config.staticGraphWithSimulation || !this.state.config.staticGraph) &&
+            (this.state.newGraphElements || this.state.d3ConfigUpdated || this.state.graphSizeUpdated)
+        ) {
             this._graphBindD3ToReactComponent();
 
             if (!this.state.config.staticGraphWithDragAndDrop) {
                 this.restartSimulation();
             }
 
-            this.setState({ newGraphElements: false, d3ConfigUpdated: false });
+            this.setState({
+                newGraphElements: false,
+                d3ConfigUpdated: false,
+                graphSizeUpdated: false,
+            });
         } else if (this.state.configUpdated) {
             this._graphNodeDragConfig();
         }
@@ -608,7 +623,7 @@ export default class Graph extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.state.config.staticGraph) {
+        if (this.state.config.staticGraphWithSimulation || !this.state.config.staticGraph) {
             this._graphBindD3ToReactComponent();
         }
 

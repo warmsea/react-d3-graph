@@ -254,6 +254,7 @@ export default {
     panAndZoom: false,
     staticGraph: false,
     staticGraphWithDragAndDrop: false,
+    staticGraphWithSimulation: false,
     width: 800,
     d3: {
         alphaTarget: 0.05,

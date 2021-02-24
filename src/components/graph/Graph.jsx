@@ -211,7 +211,7 @@ export default class Graph extends React.Component {
             this._tick({ draggedNode: null });
         }
 
-        !this.state.config.staticGraph &&
+        (this.state.config.staticGraphWithSimulation || !this.state.config.staticGraph) &&
             this.state.config.automaticRearrangeAfterDropNode &&
             this.state.simulation.alphaTarget(this.state.config.d3.alphaTarget).restart();
     };
@@ -499,7 +499,7 @@ export default class Graph extends React.Component {
      * @returns {undefined}
      */
     resetNodesPositions = () => {
-        if (!this.state.config.staticGraph) {
+        if (this.state.staticGraphWithSimulation || !this.state.config.staticGraph) {
             for (let nodeId in this.state.nodes) {
                 let node = this.state.nodes[nodeId];
 
@@ -520,7 +520,9 @@ export default class Graph extends React.Component {
      * {@link https://github.com/d3/d3-force#simulation_restart}
      * @returns {undefined}
      */
-    restartSimulation = () => !this.state.config.staticGraph && this.state.simulation.restart();
+    restartSimulation = () =>
+        (this.state.config.staticGraphWithSimulation || !this.state.config.staticGraph) &&
+        this.state.simulation.restart();
 
     constructor(props) {
         super(props);
@@ -587,14 +589,16 @@ export default class Graph extends React.Component {
 
     componentDidUpdate() {
         // if the property staticGraph was activated we want to stop possible ongoing simulation
-        const shouldPause = this.state.config.staticGraph || this.state.config.staticGraphWithDragAndDrop;
+        const shouldPause =
+            !this.state.config.staticGraphWithSimulation &&
+            (this.state.config.staticGraph || this.state.config.staticGraphWithDragAndDrop);
 
         if (shouldPause) {
             this.pauseSimulation();
         }
 
         if (
-            !this.state.config.staticGraph &&
+            (this.state.config.staticGraphWithSimulation || !this.state.config.staticGraph) &&
             (this.state.newGraphElements || this.state.d3ConfigUpdated || this.state.graphSizeUpdated)
         ) {
             this._graphBindD3ToReactComponent();
@@ -619,7 +623,7 @@ export default class Graph extends React.Component {
     }
 
     componentDidMount() {
-        if (!this.state.config.staticGraph) {
+        if (this.state.config.staticGraphWithSimulation || !this.state.config.staticGraph) {
             this._graphBindD3ToReactComponent();
         }
 
